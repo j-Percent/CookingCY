@@ -15,7 +15,7 @@ public class Customer : MonoBehaviour
     public int _tableNum;
 
     // how long customers wait until leaving (base patience is for resetting patience)
-    public float _patience;
+    public float _patienceTimer;
     public float _basePatience;
 
     // true - is VIP; false - normal customer
@@ -23,8 +23,9 @@ public class Customer : MonoBehaviour
 
     // true - need service, patience starts reducing; false - don't need service, reduce service cooldown
     public bool _serviceRequired;
+    public float _serviceTimer;
     public float _serviceCooldown;
-    
+
     // counts player's click
     public int _clickingCount;
 
@@ -39,11 +40,18 @@ public class Customer : MonoBehaviour
     {
         if (_serviceRequired)
         {
-            _patience -= Time.deltaTime;
+            _patienceTimer -= Time.deltaTime;
         }
         else
         {
-            _serviceCooldown -= Time.deltaTime;
+            _serviceTimer -= Time.deltaTime;
         }
+    }
+
+    public void _resetService()
+    {
+        _serviceTimer = _serviceCooldown;
+        _serviceRequired = false;
+        _patienceTimer = _basePatience;
     }
 }

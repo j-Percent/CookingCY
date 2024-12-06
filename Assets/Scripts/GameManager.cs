@@ -25,7 +25,7 @@ public class NewBehaviourScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        _customerSpawnTimer = UnityEngine.Random.Range(_customerSpawnMin, _customerSpawnMax);
     }
 
     // Update is called once per frame
@@ -91,6 +91,7 @@ public class NewBehaviourScript : MonoBehaviour
                     customer1._playerState = 0;
                     customer1._clickingCount = 0;
                     customer1._state += 1;
+                    customer1._resetService();
                 }
                 Debug.Log(customer1._clickingCount);
                 Debug.Log("Player" + customer1._playerState);
