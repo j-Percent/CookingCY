@@ -52,5 +52,5 @@ MonoBehaviour:
   _isVIP: 0
   _serviceRequired: 0
   _serviceTimer: 10
-  _serviceCooldown: 10
+  _serviceCooldown: 5
   _clickingCount: 0
