@@ -154,13 +154,15 @@ MonoBehaviour:
   customer: {fileID: 468357436451906286, guid: b88c86ac7717dfe45b53d0e0d035e06e, type: 3}
   _vipChance: 0
   _customerSpawnTimer: 0
-  _customerSpawnMin: 0
-  _customerSpawnMax: 0
+  _customerSpawnMin: 10
+  _customerSpawnMax: 20
   table1: {fileID: 0}
   table2: {fileID: 0}
   table3: {fileID: 0}
   table4: {fileID: 0}
   stun: 0
+  stunTImer: 0
+  stunCooldown: 0
 --- !u!4 &582860664
 Transform:
   m_ObjectHideFlags: 0
