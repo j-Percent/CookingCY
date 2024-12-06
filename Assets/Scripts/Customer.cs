@@ -42,10 +42,15 @@ public class Customer : MonoBehaviour
         {
             _patienceTimer -= Time.deltaTime;
         }
-        else
+        else if(_serviceTimer > 0)
         {
             _serviceTimer -= Time.deltaTime;
         }
+
+        if(_serviceTimer <= 0) {
+            _serviceRequired = true;
+        }
+
     }
 
     public void _resetService()

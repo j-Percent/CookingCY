@@ -31,8 +31,13 @@ public class NewBehaviourScript : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+
+        Debug.Log(table1);
+        //Debug.Log(table1.GetComponent<Customer>()._serviceRequired);
+
         if (table1 != null && table1.GetComponent<Customer>()._serviceRequired == true)
         {
+            
             if (Input.GetKeyDown(KeyCode.A))
             {
                 var customer1 = table1.GetComponent<Customer>();
@@ -59,9 +64,17 @@ public class NewBehaviourScript : MonoBehaviour
                     customer1._playerState = 0;
                     customer1._clickingCount = 0;
                     customer1._state += 1;
+                    customer1._resetService();
                 }
+
+                if(customer1._state == 4)
+                {
+                    Destroy(customer1);
+                    table1 = null;
+                }
+
                 Debug.Log(customer1._clickingCount);
-                Debug.Log("Player" + customer1._playerState);
+                Debug.Log("Player" + customer1._state);
             }
 
             if (Input.GetKeyDown(KeyCode.LeftArrow))
@@ -123,27 +136,28 @@ public class NewBehaviourScript : MonoBehaviour
 
         if (table1 == null)
         {
-            Debug.Log("Table1");
+            //Debug.Log("Table1");
             table1 = customer;
+              table1 =  Instantiate(customer, transform.position, Quaternion.identity);
         }
         else if (table2 == null)
         {
-            Debug.Log("Table2");
+            //Debug.Log("Table2");
             table2 = customer;
         }
         else if (table3 == null)
         {
-            Debug.Log("Table3");
+           //Debug.Log("Table3");
             table3 = customer;
         }
         else if (table4 == null)
         {
-            Debug.Log("Table4");
+            //Debug.Log("Table4");
             table4 = customer;
         }
         else
         {
-            Debug.Log("Queue");
+            //Debug.Log("Queue");
             customer.GetComponent<Customer>()._state = 0;
             customer.GetComponent<Customer>()._serviceRequired = true;
             customers.Enqueue(customer);

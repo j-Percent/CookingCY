@@ -44,11 +44,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b815d0f409417db4facd8348e0b1e7f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _state: 0
+  _state: 1
   _playerState: 0
   _tableNum: 0
-  _patience: 0
-  _basePatience: 0
+  _patienceTimer: 0
+  _basePatience: 100
   _isVIP: 0
   _serviceRequired: 0
-  _serviceCooldown: 0
+  _serviceTimer: 10
+  _serviceCooldown: 10
+  _clickingCount: 0
