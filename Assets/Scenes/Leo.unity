@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   customer: {fileID: 468357436451906286, guid: b88c86ac7717dfe45b53d0e0d035e06e, type: 3}
-  _vipChance: 0
+  _vipChance: 1
   _customerSpawnTimer: 0
   _customerSpawnMin: 10
   _customerSpawnMax: 20

@@ -50,29 +50,28 @@ public class NewBehaviourScript : MonoBehaviour
         if (table1 != null && table1.GetComponent<Customer>()._serviceRequired == true && stun == false)
         {
 
-            if (Input.GetKeyDown(KeyCode.W))
+            if(table1.GetComponent<Customer>()._isVIP == true)
             {
                 var customer1 = table1.GetComponent<Customer>();
-                //change player state based on player 1's interaction
-                if (customer1._playerState == 0)
+
+                if (Input.GetKeyDown(KeyCode.W))
                 {
-                    customer1._playerState = 1;
-                    customer1._clickingCount += 1;
+                    if (customer1._playerState == 0 || customer1._playerState == 2)
+                    {
+                        customer1._playerState = 1;
+                        customer1._clickingCount += 1;
+                    }
                 }
-                else if (customer1._playerState == 1)
+                else if (Input.GetKeyDown(KeyCode.UpArrow))
                 {
-                    customer1._clickingCount += 1;
-                }
-                else if (customer1._playerState == 2)
-                {
-                    customer1._playerState = 0;
-                    customer1._clickingCount = 0;
-                    stun = true;
-                    stunTImer = 2f;
-                    Debug.Log("stun");
+                    if (customer1._playerState == 0 || customer1._playerState == 1)
+                    {
+                        customer1._playerState = 2;
+                        customer1._clickingCount += 1;
+                    }
                 }
 
-                if (customer1._clickingCount >= 15)
+                if (customer1._clickingCount >= 30)
                 {
                     customer1._playerState = 0;
                     customer1._clickingCount = 0;
@@ -88,42 +87,83 @@ public class NewBehaviourScript : MonoBehaviour
 
             }
 
-            if (Input.GetKeyDown(KeyCode.UpArrow))
-            {
+            else if (table1.GetComponent<Customer>()._isVIP == false) {
 
-                var customer1 = table1.GetComponent<Customer>();
-                //change player state based on player 1's interaction
-                if (customer1._playerState == 0)
+            if (Input.GetKeyDown(KeyCode.W))
                 {
-                    customer1._playerState = 2;
-                    customer1._clickingCount += 1;
-                }
-                else if (customer1._playerState == 2)
-                {
-                    customer1._clickingCount += 1;
-                }
-                else if (customer1._playerState == 1)
-                {
-                    customer1._playerState = 0;
-                    customer1._clickingCount = 0;
-                    stun = true;
-                    stunTImer = 2f;
-                    Debug.Log("stun");
+                    var customer1 = table1.GetComponent<Customer>();
+                    //change player state based on player 1's interaction
+                    if (customer1._playerState == 0)
+                    {
+                        customer1._playerState = 1;
+                        customer1._clickingCount += 1;
+                    }
+                    else if (customer1._playerState == 1)
+                    {
+                        customer1._clickingCount += 1;
+                    }
+                    else if (customer1._playerState == 2)
+                    {
+                        customer1._playerState = 0;
+                        customer1._clickingCount = 0;
+                        stun = true;
+                        stunTImer = 2f;
+                        Debug.Log("stun");
+                    }
+
+                    if (customer1._clickingCount >= 15)
+                    {
+                        customer1._playerState = 0;
+                        customer1._clickingCount = 0;
+                        customer1._state += 1;
+                        customer1._resetService();
+                    }
+
+                    if (customer1._state == 4)
+                    {
+                        Destroy(customer1);
+                        table1 = null;
+                    }
+                    
                 }
 
-                if (customer1._clickingCount >= 15)
-                {
-                    customer1._playerState = 0;
-                    customer1._clickingCount = 0;
-                    customer1._state += 1;
-                    customer1._resetService();
-                }
-                if (customer1._state == 4)
-                {
-                    Destroy(customer1);
-                    table1 = null;
-                }
 
+                if (Input.GetKeyDown(KeyCode.UpArrow))
+                {
+
+                    var customer1 = table1.GetComponent<Customer>();
+                    //change player state based on player 1's interaction
+                    if (customer1._playerState == 0)
+                    {
+                        customer1._playerState = 2;
+                        customer1._clickingCount += 1;
+                    }
+                    else if (customer1._playerState == 2)
+                    {
+                        customer1._clickingCount += 1;
+                    }
+                    else if (customer1._playerState == 1)
+                    {
+                        customer1._playerState = 0;
+                        customer1._clickingCount = 0;
+                        stun = true;
+                        stunTImer = 2f;
+                        Debug.Log("stun");
+                    }
+
+                    if (customer1._clickingCount >= 15)
+                    {
+                        customer1._playerState = 0;
+                        customer1._clickingCount = 0;
+                        customer1._state += 1;
+                        customer1._resetService();
+                    }
+                    if (customer1._state == 4)
+                    {
+                        Destroy(customer1);
+                        table1 = null;
+                    }
+                }
             }
         }
 
