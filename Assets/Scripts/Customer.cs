@@ -24,6 +24,9 @@ public class Customer : MonoBehaviour
     // true - need service, patience starts reducing; false - don't need service, reduce service cooldown
     public bool _serviceRequired;
     public float _serviceCooldown;
+    
+    // counts player's click
+    public int _clickingCount;
 
     // Start is called before the first frame update
     void Start()
@@ -32,8 +35,15 @@ public class Customer : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        if (_serviceRequired)
+        {
+            _patience -= Time.deltaTime;
+        }
+        else
+        {
+            _serviceCooldown -= Time.deltaTime;
+        }
     }
 }
