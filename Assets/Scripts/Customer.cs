@@ -5,6 +5,9 @@ using FMODUnity;
 
 public class Customer : MonoBehaviour
 {
+    public GameObject GameManager;
+    
+
     // 0 - outside; 1 - order; 2 - plate; 3 - check
     public int _state;
 
@@ -32,29 +35,57 @@ public class Customer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        GameManager = GameObject.FindGameObjectWithTag("GameManager");
+
+        //If there's a service request, patience goes down
         if (_serviceRequired)
         {
-            _patienceTimer -= Time.deltaTime;
+            if (_isVIP == true)
+                _patienceTimer -= Time.deltaTime * 1.3f;
+            else
+            {
+                _patienceTimer -= Time.deltaTime ;
+            }
         }
-        else if(_serviceTimer > 0)
+
+        //If he has no patience, end game
+        if (_patienceTimer <= 0)
+        {
+            GameManager.GetComponent<GameManager>().endgame = true;
+            Debug.Log("end");
+            //game end
+        }
+
+        //service cooldown
+        if (_serviceTimer > 0)
         {
             _serviceTimer -= Time.deltaTime;
         }
 
         if(_serviceTimer <= 0) {
+            if (!_serviceRequired)
+            {
+                _patienceTimer = _basePatience;
+            }
             _serviceRequired = true;
+            
         }
+
+
+        
+
 
     }
 
     public void _resetService()
     {
+        _serviceCooldown = Random.Range(5, 10);
         _serviceTimer = _serviceCooldown;
         _serviceRequired = false;
         _patienceTimer = _basePatience;

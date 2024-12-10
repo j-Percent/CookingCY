@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &468357436451906286
+--- !u!1 &2472956965810699239
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8478611129585775783}
-  - component: {fileID: 7971641683042622792}
+  - component: {fileID: 7247084950805840640}
+  - component: {fileID: 1875972841920708025}
   m_Layer: 0
-  m_Name: Customer
-  m_TagString: Customer
+  m_Name: GameManager
+  m_TagString: GameManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8478611129585775783
+--- !u!4 &7247084950805840640
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 468357436451906286}
+  m_GameObject: {fileID: 2472956965810699239}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,26 +32,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7971641683042622792
+--- !u!114 &1875972841920708025
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 468357436451906286}
+  m_GameObject: {fileID: 2472956965810699239}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b815d0f409417db4facd8348e0b1e7f9, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b706555d42c149799752041bb35dc31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameManager: {fileID: 2472956965810699239, guid: ee3f601fffd234a52bf16f7557992679, type: 3}
-  _state: 1
-  _playerState: 0
-  _tableNum: 0
-  _patienceTimer: 0
-  _basePatience: 100
-  _isVIP: 1
-  _serviceRequired: 0
-  _serviceTimer: 10
-  _serviceCooldown: 5
-  _clickingCount: 0
+  customer: {fileID: 468357436451906286, guid: b88c86ac7717dfe45b53d0e0d035e06e, type: 3}
+  _vipChance: 1
+  _customerSpawnTimer: 0
+  _customerSpawnMin: 10
+  _customerSpawnMax: 20
+  table1: {fileID: 0}
+  table2: {fileID: 0}
+  table3: {fileID: 0}
+  table4: {fileID: 0}
+  endgame: 0
+  stun: 0
+  stunTImer: 0
+  stunCooldown: 0

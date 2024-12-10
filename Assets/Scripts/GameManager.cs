@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using FMODUnity;
 
-public class NewBehaviourScript : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
 
     public Queue<GameObject> customers = new Queue<GameObject>();
@@ -20,6 +20,11 @@ public class NewBehaviourScript : MonoBehaviour
     public GameObject table3;
     public GameObject table4;
 
+    public bool endgame = false;
+
+    public KeyCode player1input;
+    public KeyCode player2input;
+
     public bool stun;
     public float stunTImer;
     public float stunCooldown;
@@ -30,12 +35,37 @@ public class NewBehaviourScript : MonoBehaviour
         _customerSpawnTimer = UnityEngine.Random.Range(_customerSpawnMin, _customerSpawnMax);
     }
 
+    void keycheck(KeyCode playerinput)
+    {
+
+        if(playerinput == KeyCode.W || playerinput == KeyCode.UpArrow)
+        {
+            table1.GetComponent<Customer>()._playerState = 0;
+            table1.GetComponent<Customer>()._clickingCount = 0;
+        }
+        if (playerinput == KeyCode.A || playerinput == KeyCode.LeftArrow)
+        {
+            table2.GetComponent<Customer>()._playerState = 0;
+            table2.GetComponent<Customer>()._clickingCount = 0;
+        }
+        if (playerinput == KeyCode.S || playerinput == KeyCode.DownArrow)
+        {
+            table3.GetComponent<Customer>()._playerState = 0;
+            table3.GetComponent<Customer>()._clickingCount = 0;
+        }
+        if (playerinput == KeyCode.D || playerinput == KeyCode.RightArrow)
+        {
+            table4.GetComponent<Customer>()._playerState = 0;
+            table4.GetComponent<Customer>()._clickingCount = 0;
+        }
+
+    }
+
+
+
     // Update is called once per frame
     void Update()
     {
-
-
-        
 
         if(stunTImer >= 0)
         {
@@ -56,6 +86,11 @@ public class NewBehaviourScript : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.W))
                 {
+                    if (player1input != KeyCode.W)
+                    {
+                        keycheck(player1input);
+                        player1input = KeyCode.W;
+                    }
                     if (customer1._playerState == 0 || customer1._playerState == 2)
                     {
                         customer1._playerState = 1;
@@ -64,6 +99,11 @@ public class NewBehaviourScript : MonoBehaviour
                 }
                 else if (Input.GetKeyDown(KeyCode.UpArrow))
                 {
+                    if (player2input != KeyCode.UpArrow)
+                    {
+                        keycheck(player2input);
+                        player2input = KeyCode.UpArrow;
+                    }
                     if (customer1._playerState == 0 || customer1._playerState == 1)
                     {
                         customer1._playerState = 2;
@@ -89,49 +129,62 @@ public class NewBehaviourScript : MonoBehaviour
 
             else if (table1.GetComponent<Customer>()._isVIP == false) {
 
-            if (Input.GetKeyDown(KeyCode.W))
-                {
-                    var customer1 = table1.GetComponent<Customer>();
-                    //change player state based on player 1's interaction
-                    if (customer1._playerState == 0)
+                if (Input.GetKeyDown(KeyCode.W))
                     {
-                        customer1._playerState = 1;
-                        customer1._clickingCount += 1;
-                    }
-                    else if (customer1._playerState == 1)
-                    {
-                        customer1._clickingCount += 1;
-                    }
-                    else if (customer1._playerState == 2)
-                    {
-                        customer1._playerState = 0;
-                        customer1._clickingCount = 0;
-                        stun = true;
-                        stunTImer = 2f;
-                        Debug.Log("stun");
-                    }
+                        var customer1 = table1.GetComponent<Customer>();
 
-                    if (customer1._clickingCount >= 15)
-                    {
-                        customer1._playerState = 0;
-                        customer1._clickingCount = 0;
-                        customer1._state += 1;
-                        customer1._resetService();
-                    }
+                        if(player1input != KeyCode.W)
+                        {
+                            keycheck(player1input);
+                            player1input = KeyCode.W;
+                        }
 
-                    if (customer1._state == 4)
-                    {
-                        Destroy(customer1);
-                        table1 = null;
-                    }
+                        //change player state based on player 1's interaction
+                        if (customer1._playerState == 0)
+                        {
+                            customer1._playerState = 1;
+                            customer1._clickingCount += 1;
+                        }
+                        else if (customer1._playerState == 1)
+                        {
+                            customer1._clickingCount += 1;
+                        }
+                        else if (customer1._playerState == 2)
+                        {
+                            customer1._playerState = 0;
+                            customer1._clickingCount = 0;
+                            stun = true;
+                            stunTImer = 2f;
+                            Debug.Log("stun");
+                        }
+
+                        if (customer1._clickingCount >= 15)
+                        {
+                            customer1._playerState = 0;
+                            customer1._clickingCount = 0;
+                            customer1._state += 1;
+                            customer1._resetService();
+                        }
+
+                        if (customer1._state == 4)
+                        {
+                            Destroy(customer1);
+                            table1 = null;
+                        }
                     
-                }
+                    }
 
 
                 if (Input.GetKeyDown(KeyCode.UpArrow))
                 {
 
                     var customer1 = table1.GetComponent<Customer>();
+
+                    if (player2input != KeyCode.UpArrow)
+                    {
+                        keycheck(player2input);
+                        player2input = KeyCode.UpArrow;
+                    }
                     //change player state based on player 1's interaction
                     if (customer1._playerState == 0)
                     {
@@ -170,29 +223,38 @@ public class NewBehaviourScript : MonoBehaviour
         if (table2 != null && table2.GetComponent<Customer>()._serviceRequired == true && stun == false)
         {
 
-            if (Input.GetKeyDown(KeyCode.A))
+            if (table2.GetComponent<Customer>()._isVIP == true)
             {
                 var customer1 = table2.GetComponent<Customer>();
-                //change player state based on player 1's interaction
-                if (customer1._playerState == 0)
+
+                if (Input.GetKeyDown(KeyCode.A))
                 {
-                    customer1._playerState = 1;
-                    customer1._clickingCount += 1;
+                    if (player1input != KeyCode.A)
+                    {
+                        keycheck(player1input);
+                        player1input = KeyCode.A;
+                    }
+                    if (customer1._playerState == 0 || customer1._playerState == 2)
+                    {
+                        customer1._playerState = 1;
+                        customer1._clickingCount += 1;
+                    }
                 }
-                else if (customer1._playerState == 1)
+                else if (Input.GetKeyDown(KeyCode.LeftArrow))
                 {
-                    customer1._clickingCount += 1;
-                }
-                else if (customer1._playerState == 2)
-                {
-                    customer1._playerState = 0;
-                    customer1._clickingCount = 0;
-                    stun = true;
-                    stunTImer = 2f;
-                    Debug.Log("stun");
+                    if (player2input != KeyCode.LeftArrow)
+                    {
+                        keycheck(player2input);
+                        player2input = KeyCode.LeftArrow;
+                    }
+                    if (customer1._playerState == 0 || customer1._playerState == 1)
+                    {
+                        customer1._playerState = 2;
+                        customer1._clickingCount += 1;
+                    }
                 }
 
-                if (customer1._clickingCount >= 15)
+                if (customer1._clickingCount >= 30)
                 {
                     customer1._playerState = 0;
                     customer1._clickingCount = 0;
@@ -208,51 +270,161 @@ public class NewBehaviourScript : MonoBehaviour
 
             }
 
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            else if (table2.GetComponent<Customer>()._isVIP == false)
             {
+                if (Input.GetKeyDown(KeyCode.A))
+                {
+                    var customer1 = table2.GetComponent<Customer>();
+                    if (player1input != KeyCode.A)
+                    {
+                        keycheck(player1input);
+                        player1input = KeyCode.A;
+                    }
 
-                var customer1 = table2.GetComponent<Customer>();
-                //change player state based on player 1's interaction
-                if (customer1._playerState == 0)
-                {
-                    customer1._playerState = 2;
-                    customer1._clickingCount += 1;
-                }
-                else if (customer1._playerState == 2)
-                {
-                    customer1._clickingCount += 1;
-                }
-                else if (customer1._playerState == 1)
-                {
-                    customer1._playerState = 0;
-                    customer1._clickingCount = 0;
-                    stun = true;
-                    stunTImer = 2f;
-                    Debug.Log("stun");
+                    //change player state based on player 1's interaction
+                    if (customer1._playerState == 0)
+                    {
+                        customer1._playerState = 1;
+                        customer1._clickingCount += 1;
+                    }
+                    else if (customer1._playerState == 1)
+                    {
+                        customer1._clickingCount += 1;
+                    }
+                    else if (customer1._playerState == 2)
+                    {
+                        customer1._playerState = 0;
+                        customer1._clickingCount = 0;
+                        stun = true;
+                        stunTImer = 2f;
+                        Debug.Log("stun");
+                    }
+
+                    if (customer1._clickingCount >= 15)
+                    {
+                        customer1._playerState = 0;
+                        customer1._clickingCount = 0;
+                        customer1._state += 1;
+                        customer1._resetService();
+                    }
+
+                    if (customer1._state == 4)
+                    {
+                        Destroy(customer1);
+                        table2 = null;
+                    }
+
                 }
 
-                if (customer1._clickingCount >= 15)
+                if (Input.GetKeyDown(KeyCode.LeftArrow))
                 {
-                    customer1._playerState = 0;
-                    customer1._clickingCount = 0;
-                    customer1._state += 1;
-                    customer1._resetService();
-                }
-                if (customer1._state == 4)
-                {
-                    Destroy(customer1);
-                    table2 = null;
-                }
 
+                    var customer1 = table2.GetComponent<Customer>();
+                    if (player2input != KeyCode.LeftArrow)
+                    {
+                        keycheck(player2input);
+                        player2input = KeyCode.LeftArrow;
+                    }
+                    //change player state based on player 1's interaction
+                    if (customer1._playerState == 0)
+                    {
+                        customer1._playerState = 2;
+                        customer1._clickingCount += 1;
+                    }
+                    else if (customer1._playerState == 2)
+                    {
+                        customer1._clickingCount += 1;
+                    }
+                    else if (customer1._playerState == 1)
+                    {
+                        customer1._playerState = 0;
+                        customer1._clickingCount = 0;
+                        stun = true;
+                        stunTImer = 2f;
+                        Debug.Log("stun");
+                    }
+
+                    if (customer1._clickingCount >= 15)
+                    {
+                        customer1._playerState = 0;
+                        customer1._clickingCount = 0;
+                        customer1._state += 1;
+                        customer1._resetService();
+                    }
+                    if (customer1._state == 4)
+                    {
+                        Destroy(customer1);
+                        table2 = null;
+                    }
+
+                }
             }
         }
 
         if (table3 != null && table3.GetComponent<Customer>()._serviceRequired == true && stun == false)
         {
 
-            if (Input.GetKeyDown(KeyCode.S))
+            if (table3.GetComponent<Customer>()._isVIP == true)
             {
                 var customer1 = table3.GetComponent<Customer>();
+
+                if (Input.GetKeyDown(KeyCode.S))
+                {
+                    if (player1input != KeyCode.S)
+                    {
+                        keycheck(player1input);
+                        player1input = KeyCode.S;
+                    }
+                    if (customer1._playerState == 0 || customer1._playerState == 2)
+                    {
+                        customer1._playerState = 1;
+                        customer1._clickingCount += 1;
+                    }
+                }
+                else if (Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    if (player2input != KeyCode.DownArrow)
+                    {
+                        keycheck(player2input);
+                        player2input = KeyCode.DownArrow;
+                    }
+                    if (customer1._playerState == 0 || customer1._playerState == 1)
+                    {
+                        customer1._playerState = 2;
+                        customer1._clickingCount += 1;
+                    }
+                }
+
+                if (customer1._clickingCount >= 30)
+                {
+                    customer1._playerState = 0;
+                    customer1._clickingCount = 0;
+                    customer1._state += 1;
+                    customer1._resetService();
+                }
+
+                if (customer1._state == 4)
+                {
+                    Destroy(customer1);
+                    table3 = null;
+                }
+
+            }
+
+            else if (table3.GetComponent<Customer>()._isVIP == false)
+            {
+
+                if (Input.GetKeyDown(KeyCode.S))
+            {
+                var customer1 = table3.GetComponent<Customer>();
+
+                if (player1input != KeyCode.S)
+                {
+                    keycheck(player1input);
+                    player1input = KeyCode.S;
+                }
+                
+
                 //change player state based on player 1's interaction
                 if (customer1._playerState == 0)
                 {
@@ -288,70 +460,83 @@ public class NewBehaviourScript : MonoBehaviour
 
             }
 
-            if (Input.GetKeyDown(KeyCode.DownArrow))
-            {
+                if (Input.GetKeyDown(KeyCode.DownArrow))
+                {
 
-                var customer1 = table3.GetComponent<Customer>();
-                //change player state based on player 1's interaction
-                if (customer1._playerState == 0)
-                {
-                    customer1._playerState = 2;
-                    customer1._clickingCount += 1;
-                }
-                else if (customer1._playerState == 2)
-                {
-                    customer1._clickingCount += 1;
-                }
-                else if (customer1._playerState == 1)
-                {
-                    customer1._playerState = 0;
-                    customer1._clickingCount = 0;
-                    stun = true;
-                    stunTImer = 2f;
-                    Debug.Log("stun");
-                }
+                    var customer1 = table3.GetComponent<Customer>();
+                    if (player2input != KeyCode.DownArrow)
+                    {
+                        keycheck(player2input);
+                        player2input = KeyCode.DownArrow;
+                    }
+                    //change player state based on player 1's interaction
+                    if (customer1._playerState == 0)
+                    {
+                        customer1._playerState = 2;
+                        customer1._clickingCount += 1;
+                    }
+                    else if (customer1._playerState == 2)
+                    {
+                        customer1._clickingCount += 1;
+                    }
+                    else if (customer1._playerState == 1)
+                    {
+                        customer1._playerState = 0;
+                        customer1._clickingCount = 0;
+                        stun = true;
+                        stunTImer = 2f;
+                        Debug.Log("stun");
+                    }
 
-                if (customer1._clickingCount >= 15)
-                {
-                    customer1._playerState = 0;
-                    customer1._clickingCount = 0;
-                    customer1._state += 1;
-                    customer1._resetService();
+                    if (customer1._clickingCount >= 15)
+                    {
+                        customer1._playerState = 0;
+                        customer1._clickingCount = 0;
+                        customer1._state += 1;
+                        customer1._resetService();
+                    }
+                    if (customer1._state == 4)
+                    {
+                        Destroy(customer1);
+                        table3 = null;
+                    }
                 }
-                if (customer1._state == 4)
-                {
-                    Destroy(customer1);
-                    table3 = null;
-                }
-
             }
         }
         if (table4 != null && table4.GetComponent<Customer>()._serviceRequired == true && stun == false)
         {
-
-            if (Input.GetKeyDown(KeyCode.D))
+            if (table4.GetComponent<Customer>()._isVIP == true)
             {
                 var customer1 = table4.GetComponent<Customer>();
-                //change player state based on player 1's interaction
-                if (customer1._playerState == 0)
+
+                if (Input.GetKeyDown(KeyCode.D))
                 {
-                    customer1._playerState = 1;
-                    customer1._clickingCount += 1;
+                    if (player1input != KeyCode.D)
+                    {
+                        keycheck(player1input);
+                        player1input = KeyCode.D;
+                    }
+                    if (customer1._playerState == 0 || customer1._playerState == 2)
+                    {
+                        customer1._playerState = 1;
+                        customer1._clickingCount += 1;
+                    }
                 }
-                else if (customer1._playerState == 1)
+                else if (Input.GetKeyDown(KeyCode.RightArrow))
                 {
-                    customer1._clickingCount += 1;
-                }
-                else if (customer1._playerState == 2)
-                {
-                    customer1._playerState = 0;
-                    customer1._clickingCount = 0;
-                    stun = true;
-                    stunTImer = 2f;
-                    Debug.Log("stun");
+                    if (player2input != KeyCode.RightArrow)
+                    {
+                        keycheck(player2input);
+                        player2input = KeyCode.RightArrow;
+                    }
+                    if (customer1._playerState == 0 || customer1._playerState == 1)
+                    {
+                        customer1._playerState = 2;
+                        customer1._clickingCount += 1;
+                    }
                 }
 
-                if (customer1._clickingCount >= 15)
+                if (customer1._clickingCount >= 30)
                 {
                     customer1._playerState = 0;
                     customer1._clickingCount = 0;
@@ -367,43 +552,96 @@ public class NewBehaviourScript : MonoBehaviour
 
             }
 
-            if (Input.GetKeyDown(KeyCode.RightArrow))
+
+            else if (table4.GetComponent<Customer>()._isVIP == false)
             {
+                if (Input.GetKeyDown(KeyCode.D))
+                {
+                    var customer1 = table4.GetComponent<Customer>();
+                    if (player1input != KeyCode.D)
+                    {
+                        keycheck(player1input);
+                        player1input = KeyCode.D;
+                    }
 
-                var customer1 = table4.GetComponent<Customer>();
-                //change player state based on player 1's interaction
-                if (customer1._playerState == 0)
-                {
-                    customer1._playerState = 2;
-                    customer1._clickingCount += 1;
-                }
-                else if (customer1._playerState == 2)
-                {
-                    customer1._clickingCount += 1;
-                }
-                else if (customer1._playerState == 1)
-                {
-                    customer1._playerState = 0;
-                    customer1._clickingCount = 0;
-                    stun = true;
-                    stunTImer = 2f;
-                    Debug.Log("stun");
+                    //change player state based on player 1's interaction
+                    if (customer1._playerState == 0)
+                    {
+                        customer1._playerState = 1;
+                        customer1._clickingCount += 1;
+                    }
+                    else if (customer1._playerState == 1)
+                    {
+                        customer1._clickingCount += 1;
+                    }
+                    else if (customer1._playerState == 2)
+                    {
+                        customer1._playerState = 0;
+                        customer1._clickingCount = 0;
+                        stun = true;
+                        stunTImer = 2f;
+                        Debug.Log("stun");
+                    }
+
+                    if (customer1._clickingCount >= 15)
+                    {
+                        customer1._playerState = 0;
+                        customer1._clickingCount = 0;
+                        customer1._state += 1;
+                        customer1._resetService();
+                    }
+
+                    if (customer1._state == 4)
+                    {
+                        Destroy(customer1);
+                        table4 = null;
+                    }
+
                 }
 
-                if (customer1._clickingCount >= 15)
+                if (Input.GetKeyDown(KeyCode.RightArrow))
                 {
-                    customer1._playerState = 0;
-                    customer1._clickingCount = 0;
-                    customer1._state += 1;
-                    customer1._resetService();
-                }
-                if (customer1._state == 4)
-                {
-                    Destroy(customer1);
-                    table4 = null;
-                }
 
-            }
+                    var customer1 = table4.GetComponent<Customer>();
+                    if (player2input != KeyCode.RightArrow)
+                    {
+                        keycheck(player2input);
+                        player2input = KeyCode.RightArrow;
+                    }
+
+                    //change player state based on player 1's interaction
+                    if (customer1._playerState == 0)
+                    {
+                        customer1._playerState = 2;
+                        customer1._clickingCount += 1;
+                    }
+                    else if (customer1._playerState == 2)
+                    {
+                        customer1._clickingCount += 1;
+                    }
+                    else if (customer1._playerState == 1)
+                    {
+                        customer1._playerState = 0;
+                        customer1._clickingCount = 0;
+                        stun = true;
+                        stunTImer = 2f;
+                        Debug.Log("stun");
+                    }
+
+                    if (customer1._clickingCount >= 15)
+                    {
+                        customer1._playerState = 0;
+                        customer1._clickingCount = 0;
+                        customer1._state += 1;
+                        customer1._resetService();
+                    }
+                    if (customer1._state == 4)
+                    {
+                        Destroy(customer1);
+                        table4 = null;
+                    }
+
+                } }
         }
 
         //Cleanup
