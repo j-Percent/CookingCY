@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
     public KeyCode player2input;
 
     public bool stun;
-    public float stunTImer;
+    public float stunTimer;
     public float stunCooldown;
 
     // Start is called before the first frame update
@@ -86,31 +86,31 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 
-        if (table1.GetComponent<Customer>()._patienceTimer <= 30)
+        if (table1 != null && table1.GetComponent<Customer>()._patienceTimer <= 30)
         {
             //playsound_uplate
         }
-        if (table2.GetComponent<Customer>()._patienceTimer <= 30)
+        if (table2 != null && table2.GetComponent<Customer>()._patienceTimer <= 30)
         {
             //playsound_leftlate
         }
-        if (table3.GetComponent<Customer>()._patienceTimer <= 30)
+        if (table3 != null && table3.GetComponent<Customer>()._patienceTimer <= 30)
         {
             //playsound_downlate
         }
-        if (table4.GetComponent<Customer>()._patienceTimer <= 30)
+        if (table4 != null && table4.GetComponent<Customer>()._patienceTimer <= 30)
         {
             //playsound_rightlate
         }
 
 
 
-        if (stunTImer >= 0)
+        if (stunTimer >= 0)
         {
-            stunTImer -= Time.deltaTime;
+            stunTimer -= Time.deltaTime;
         }
 
-        if (stunTImer <= 0)
+        if (stunTimer <= 0)
         {
             stun = false;
         }
@@ -232,7 +232,7 @@ public class GameManager : MonoBehaviour
                             customer1._playerState = 0;
                             customer1._clickingCount = 0;
                             stun = true;
-                            stunTImer = 2f;
+                            stunTimer = 2f;
                             Debug.Log("stun");
                         }
 
@@ -291,7 +291,7 @@ public class GameManager : MonoBehaviour
                         customer1._playerState = 0;
                         customer1._clickingCount = 0;
                         stun = true;
-                        stunTImer = 2f;
+                        stunTimer = 2f;
                         Debug.Log("stun");
                     }
 
@@ -387,7 +387,7 @@ public class GameManager : MonoBehaviour
                         customer1._playerState = 0;
                         customer1._clickingCount = 0;
                         stun = true;
-                        stunTImer = 2f;
+                        stunTimer = 2f;
                         Debug.Log("stun");
                     }
 
@@ -431,7 +431,7 @@ public class GameManager : MonoBehaviour
                         customer1._playerState = 0;
                         customer1._clickingCount = 0;
                         stun = true;
-                        stunTImer = 2f;
+                        stunTimer = 2f;
                         Debug.Log("stun");
                     }
 
@@ -531,7 +531,7 @@ public class GameManager : MonoBehaviour
                     customer1._playerState = 0;
                     customer1._clickingCount = 0;
                     stun = true;
-                    stunTImer = 2f;
+                    stunTimer = 2f;
                     Debug.Log("stun");
                 }
 
@@ -575,7 +575,7 @@ public class GameManager : MonoBehaviour
                         customer1._playerState = 0;
                         customer1._clickingCount = 0;
                         stun = true;
-                        stunTImer = 2f;
+                        stunTimer = 2f;
                         Debug.Log("stun");
                     }
 
@@ -670,7 +670,7 @@ public class GameManager : MonoBehaviour
                         customer1._playerState = 0;
                         customer1._clickingCount = 0;
                         stun = true;
-                        stunTImer = 2f;
+                        stunTimer = 2f;
                         Debug.Log("stun");
                     }
 
@@ -715,7 +715,7 @@ public class GameManager : MonoBehaviour
                         customer1._playerState = 0;
                         customer1._clickingCount = 0;
                         stun = true;
-                        stunTImer = 2f;
+                        stunTimer = 2f;
                         Debug.Log("stun");
                     }
 

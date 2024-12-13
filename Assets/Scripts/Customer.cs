@@ -57,7 +57,7 @@ public class Customer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        _patienceTimer = _basePatience;
     }
 
     // Update is called once per frame
