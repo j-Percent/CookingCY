@@ -20,6 +20,25 @@ public class GameManager : MonoBehaviour
     public GameObject table3;
     public GameObject table4;
 
+    #region tableup
+    public FMODUnity.EventReference up_late;
+    public FMODUnity.EventReference left_late;
+    public FMODUnity.EventReference right_late;
+    public FMODUnity.EventReference down_late;
+
+    public FMODUnity.EventReference up_player1_order;
+    public FMODUnity.EventReference up_player1_plate;
+    public FMODUnity.EventReference up_player1_check;
+
+    public FMODUnity.EventReference up_player2_order;
+    public FMODUnity.EventReference up_player2_plate;
+    public FMODUnity.EventReference up_player2_check;
+
+    public FMODUnity.EventReference up_VIP_leave;
+    public FMODUnity.EventReference up_leave;
+    #endregion
+
+
     public bool endgame = false;
 
     public KeyCode player1input;
@@ -67,7 +86,26 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 
-        if(stunTImer >= 0)
+        if (table1.GetComponent<Customer>()._patienceTimer <= 30)
+        {
+            //playsound_uplate
+        }
+        if (table2.GetComponent<Customer>()._patienceTimer <= 30)
+        {
+            //playsound_leftlate
+        }
+        if (table3.GetComponent<Customer>()._patienceTimer <= 30)
+        {
+            //playsound_downlate
+        }
+        if (table4.GetComponent<Customer>()._patienceTimer <= 30)
+        {
+            //playsound_rightlate
+        }
+
+
+
+        if (stunTImer >= 0)
         {
             stunTImer -= Time.deltaTime;
         }
@@ -96,6 +134,20 @@ public class GameManager : MonoBehaviour
                         customer1._playerState = 1;
                         customer1._clickingCount += 1;
                     }
+
+                    if(customer1._state == 1)
+                    {
+                        //playsound_up1order
+                    }
+                    if (customer1._state == 2)
+                    {
+                        //playsound_up1plate
+                    }
+                    if (customer1._state == 3)
+                    {
+                        //playsound_up1check
+                    }
+                    
                 }
                 else if (Input.GetKeyDown(KeyCode.UpArrow))
                 {
@@ -109,18 +161,32 @@ public class GameManager : MonoBehaviour
                         customer1._playerState = 2;
                         customer1._clickingCount += 1;
                     }
+                    if (customer1._state == 1)
+                    {
+                        //playsound_up2order
+                    }
+                    if (customer1._state == 2)
+                    {
+                        //playsound_up2plate
+                    }
+                    if (customer1._state == 3)
+                    {
+                        //playsound_up2check
+                    }
                 }
 
                 if (customer1._clickingCount >= 30)
                 {
                     customer1._playerState = 0;
                     customer1._clickingCount = 0;
+                   
                     customer1._state += 1;
                     customer1._resetService();
                 }
 
                 if (customer1._state == 4)
                 {
+                    //playsound_upVIP_leave
                     Destroy(customer1);
                     table1 = null;
                 }
@@ -148,6 +214,18 @@ public class GameManager : MonoBehaviour
                         else if (customer1._playerState == 1)
                         {
                             customer1._clickingCount += 1;
+                            if (customer1._state == 1)
+                            {
+                                //playsound_up1order
+                            }
+                            if (customer1._state == 2)
+                            {
+                                //playsound_up1plate
+                            }
+                            if (customer1._state == 3)
+                            {
+                                //playsound_up1check
+                            }
                         }
                         else if (customer1._playerState == 2)
                         {
@@ -168,6 +246,7 @@ public class GameManager : MonoBehaviour
 
                         if (customer1._state == 4)
                         {
+                            //playsound_upleave
                             Destroy(customer1);
                             table1 = null;
                         }
@@ -194,6 +273,18 @@ public class GameManager : MonoBehaviour
                     else if (customer1._playerState == 2)
                     {
                         customer1._clickingCount += 1;
+                        if (customer1._state == 1)
+                        {
+                            //playsound_up2order
+                        }
+                        if (customer1._state == 2)
+                        {
+                            //playsound_up2plate
+                        }
+                        if (customer1._state == 3)
+                        {
+                            //playsound_up2check
+                        }
                     }
                     else if (customer1._playerState == 1)
                     {
@@ -712,6 +803,14 @@ public class GameManager : MonoBehaviour
                 table1 = customers.Dequeue();
                 table1.GetComponent<Customer>()._state = 1;
                 table1.GetComponent<Customer>()._serviceRequired = false;
+                if(table1.GetComponent<Customer>()._isVIP == true)
+                {
+                    //playsound_VIPupenter
+                }
+                else if (table1.GetComponent<Customer>()._isVIP == false)
+                {
+                    //playsound_VIPupenter
+                }
             }
         }
         else if (table2 == null)
@@ -744,6 +843,18 @@ public class GameManager : MonoBehaviour
                 table4.GetComponent<Customer>()._serviceRequired = false;
             }
         }
+    }
+
+    public void PlaySound(FMODUnity.EventReference eventReference)
+    {
+        FMODUnity.RuntimeManager.PlayOneShot(eventReference);
+    }
+
+        bool IsPlaying(FMOD.Studio.EventInstance instance)
+    {
+        FMOD.Studio.PLAYBACK_STATE state;
+        instance.getPlaybackState(out state);
+        return state != FMOD.Studio.PLAYBACK_STATE.STOPPED;
     }
 
 }

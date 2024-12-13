@@ -32,6 +32,28 @@ public class Customer : MonoBehaviour
     // counts player's click
     public int _clickingCount;
 
+
+    public FMODUnity.EventReference VIP_angry;
+    public FMODUnity.EventReference up_angry;
+    public FMODUnity.EventReference left_angry;
+    public FMODUnity.EventReference down_angry;
+    public FMODUnity.EventReference right_angry;
+
+    public FMODUnity.EventReference up_order_request;
+    public FMODUnity.EventReference left_order_request;
+    public FMODUnity.EventReference down_order_request;
+    public FMODUnity.EventReference right_order_request;
+
+    public FMODUnity.EventReference up_plate_request;
+    public FMODUnity.EventReference left_plate_request;
+    public FMODUnity.EventReference down_plate_request;
+    public FMODUnity.EventReference right_plate_request;
+
+    public FMODUnity.EventReference up_check_request;
+    public FMODUnity.EventReference left_check_request;
+    public FMODUnity.EventReference down_check_request;
+    public FMODUnity.EventReference right_check_request;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -57,7 +79,32 @@ public class Customer : MonoBehaviour
         //If he has no patience, end game
         if (_patienceTimer <= 0)
         {
-            GameManager.GetComponent<GameManager>().endgame = true;
+
+            if (_isVIP)
+            {
+                //playsound_VIP_angry
+            }
+            else
+            {
+                if (_tableNum == 1)
+                {
+                    //playsound_up_angry
+                }
+                if (_tableNum == 2)
+                {
+                    //playsound_left_angry
+                }
+                if (_tableNum == 3)
+                {
+                    //playsound_down_angry
+                }
+                if (_tableNum == 4)
+                {
+                    //playsound_right_angry
+                }
+            }
+
+                GameManager.GetComponent<GameManager>().endgame = true;
             Debug.Log("end");
             //game end
         }
@@ -72,6 +119,66 @@ public class Customer : MonoBehaviour
             if (!_serviceRequired)
             {
                 _patienceTimer = _basePatience;
+                if (_tableNum == 1)
+                {
+                    if (_state == 0)
+                    {
+                        //playsound_uporder_request
+                    }
+                    if (_state == 1)
+                    {
+                        //playsound_upplate_request
+                    }
+                    if (_state == 2)
+                    {
+                        //playsound_upcheck_request
+                    }
+                }
+                if (_tableNum == 2)
+                {
+                    if (_state == 0)
+                    {
+                        //playsound_leftorder_request
+                    }
+                    if (_state == 1)
+                    {
+                        //playsound_leftplate_request
+                    }
+                    if (_state == 2)
+                    {
+                        //playsound_leftcheck_request
+                    }
+                }
+                if (_tableNum == 3)
+                {
+                    if (_state == 0)
+                    {
+                        //playsound_downorder_request
+                    }
+                    if (_state == 1)
+                    {
+                        //playsound_downplate_request
+                    }
+                    if (_state == 2)
+                    {
+                        //playsound_downcheck_request
+                    }
+                }
+                if (_tableNum == 4)
+                {
+                    if (_state == 0)
+                    {
+                        //playsound_rightorder_request
+                    }
+                    if (_state == 1)
+                    {
+                        //playsound_rightplate_request
+                    }
+                    if (_state == 2)
+                    {
+                        //playsound_rightcheck_request
+                    }
+                }
             }
             _serviceRequired = true;
             
