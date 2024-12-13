@@ -232,7 +232,7 @@ public class GameManager : MonoBehaviour
     }
     public void getPlate(float tableNum)
     {
-        plateInstance.setParameterByID(orderTableNumber, tableNum);
+        plateInstance.setParameterByID(plateTableNumber, tableNum);
         if (plateInstance.isValid())
         {
             plateInstance.start();
@@ -1734,6 +1734,14 @@ public class GameManager : MonoBehaviour
             customer.GetComponent<Customer>()._tableNum = 1;
             table1 = customer;
             table1 =  Instantiate(customer, transform.position, Quaternion.identity);
+            if (customer.GetComponent<Customer>()._isVIP == true)
+            {
+                vipTableInstance.setParameterByID(vipAtTableNumber, 1f);
+                if (vipTableInstance.isValid())
+                {
+                    vipTableInstance.start();
+                }
+            }
         }
         else if (table2 == null)
         {
@@ -1741,6 +1749,14 @@ public class GameManager : MonoBehaviour
             customer.GetComponent<Customer>()._tableNum = 2;
             table2 = customer;
             table2 = Instantiate(customer, transform.position, Quaternion.identity);
+            if (customer.GetComponent<Customer>()._isVIP == true)
+            {
+                vipTableInstance.setParameterByID(vipAtTableNumber, 2f);
+                if (vipTableInstance.isValid())
+                {
+                    vipTableInstance.start();
+                }
+            }
         }
         else if (table3 == null)
         {
@@ -1748,6 +1764,14 @@ public class GameManager : MonoBehaviour
             customer.GetComponent<Customer>()._tableNum = 3;
             table3 = customer;
             table3 = Instantiate(customer, transform.position, Quaternion.identity);
+            if (customer.GetComponent<Customer>()._isVIP == true)
+            {
+                vipTableInstance.setParameterByID(vipAtTableNumber, 4f);
+                if (vipTableInstance.isValid())
+                {
+                    vipTableInstance.start();
+                }
+            }
         }
         else if (table4 == null)
         {
@@ -1755,6 +1779,14 @@ public class GameManager : MonoBehaviour
             customer.GetComponent<Customer>()._tableNum = 4;
             table4 = customer;
             table4 = Instantiate(customer, transform.position, Quaternion.identity);
+            if (customer.GetComponent<Customer>()._isVIP == true)
+            {
+                vipTableInstance.setParameterByID(vipAtTableNumber, 3f);
+                if (vipTableInstance.isValid())
+                {
+                    vipTableInstance.start();
+                }
+            }
         }
         else
         {
