@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{b20e6634-2c25-4431-968c-5e87bb0278f6}">
+		<property name="assetPath">
+			<value>Table3Check.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>3.6971201814058956</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{83d5815a-ff6e-4767-a362-b5d582593a95}</destination>
+		</relationship>
+	</object>
+</objects>
