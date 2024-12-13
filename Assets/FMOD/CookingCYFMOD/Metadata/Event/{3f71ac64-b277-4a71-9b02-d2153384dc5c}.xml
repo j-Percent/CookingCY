@@ -278,7 +278,11 @@
 			<destination>{c2a2d917-7163-47a3-b3d6-79d5b1e81876}</destination>
 		</relationship>
 	</object>
-	<object class="MixerBusPanner" id="{bb867eee-eb6b-4567-b434-a4dad0abecfe}" />
+	<object class="MixerBusPanner" id="{bb867eee-eb6b-4567-b434-a4dad0abecfe}">
+		<property name="stereoPan">
+			<value>-48</value>
+		</property>
+	</object>
 	<object class="Automator" id="{f8d7de96-8a1e-41f7-8c0e-0c9a25a590f1}">
 		<property name="nameOfPropertyBeingAutomated">
 			<value>volume</value>
@@ -292,7 +296,11 @@
 			<destination>{5d9f49be-04a3-481a-9506-b0472a09bd07}</destination>
 		</relationship>
 	</object>
-	<object class="MixerBusPanner" id="{d20a8a79-51c4-4d95-b355-32c23bd7e03d}" />
+	<object class="MixerBusPanner" id="{d20a8a79-51c4-4d95-b355-32c23bd7e03d}">
+		<property name="stereoPan">
+			<value>-20</value>
+		</property>
+	</object>
 	<object class="Automator" id="{cdc11144-a91e-4f57-9101-2edb485988ea}">
 		<property name="nameOfPropertyBeingAutomated">
 			<value>volume</value>
@@ -306,7 +314,11 @@
 			<destination>{f93e85fd-8d7a-4f41-8330-272ffb28de3d}</destination>
 		</relationship>
 	</object>
-	<object class="MixerBusPanner" id="{af9077f2-9ea1-405e-b7d8-4132cf4b3f6f}" />
+	<object class="MixerBusPanner" id="{af9077f2-9ea1-405e-b7d8-4132cf4b3f6f}">
+		<property name="stereoPan">
+			<value>18</value>
+		</property>
+	</object>
 	<object class="Automator" id="{9ae73bc6-956c-4b9b-9f0d-79f00d88dbd8}">
 		<property name="nameOfPropertyBeingAutomated">
 			<value>volume</value>
@@ -320,7 +332,11 @@
 			<destination>{b97d20c6-0599-4d89-9d1e-ed14ea8d4b06}</destination>
 		</relationship>
 	</object>
-	<object class="MixerBusPanner" id="{7efe7045-0f23-4664-9b3c-4d24a4dc42c1}" />
+	<object class="MixerBusPanner" id="{7efe7045-0f23-4664-9b3c-4d24a4dc42c1}">
+		<property name="stereoPan">
+			<value>52</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{193aeaf7-7940-43a3-8fde-d5ea99ac2839}" />
 	<object class="AutomationCurve" id="{2f7068c7-9774-4646-877f-9a9624493d49}">
 		<relationship name="parameter">
@@ -369,7 +385,7 @@
 			<value>1</value>
 		</property>
 		<property name="value">
-			<value>3.81469727e-06</value>
+			<value>5</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{00491b35-9406-498c-9ba4-1a510d4dcb22}">
@@ -377,7 +393,7 @@
 			<value>2</value>
 		</property>
 		<property name="value">
-			<value>-80</value>
+			<value>-53.3333473</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{a8773a91-b3c0-437e-9448-bf0776c7fa36}">

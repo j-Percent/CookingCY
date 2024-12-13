@@ -69,10 +69,10 @@ public class Customer : MonoBehaviour
         if (_serviceRequired)
         {
             if (_isVIP == true)
-                _patienceTimer -= Time.deltaTime * 1.3f;
+                _patienceTimer -= Time.deltaTime * 3f;
             else
             {
-                _patienceTimer -= Time.deltaTime ;
+                _patienceTimer -= Time.deltaTime * 2;
             }
         }
 
@@ -83,24 +83,29 @@ public class Customer : MonoBehaviour
             if (_isVIP)
             {
                 //playsound_VIP_angry
+                GameManager.GetComponent<GameManager>().getVIPAngry();
             }
             else
             {
                 if (_tableNum == 1)
                 {
                     //playsound_up_angry
+                    GameManager.GetComponent<GameManager>().getAngry(1f);
                 }
                 if (_tableNum == 2)
                 {
                     //playsound_left_angry
+                    GameManager.GetComponent<GameManager>().getAngry(2f);
                 }
                 if (_tableNum == 3)
                 {
                     //playsound_down_angry
+                    GameManager.GetComponent<GameManager>().getAngry(4f);
                 }
                 if (_tableNum == 4)
                 {
                     //playsound_right_angry
+                    GameManager.GetComponent<GameManager>().getAngry(3f);
                 }
             }
 
@@ -121,62 +126,75 @@ public class Customer : MonoBehaviour
                 _patienceTimer = _basePatience;
                 if (_tableNum == 1)
                 {
-                    if (_state == 0)
-                    {
-                        //playsound_uporder_request
-                    }
                     if (_state == 1)
                     {
-                        //playsound_upplate_request
+                        //playsound_uporder_request
+                        Debug.Log("Order 1");
+                        GameManager.GetComponent<GameManager>().getOrder(1f);
                     }
                     if (_state == 2)
                     {
+                        //playsound_upplate_request
+                        GameManager.GetComponent<GameManager>().getPlate(1f);
+                    }
+                    if (_state == 3)
+                    {
                         //playsound_upcheck_request
+                        GameManager.GetComponent<GameManager>().getCheck(1f);
                     }
                 }
                 if (_tableNum == 2)
                 {
-                    if (_state == 0)
-                    {
-                        //playsound_leftorder_request
-                    }
                     if (_state == 1)
                     {
-                        //playsound_leftplate_request
+                        //playsound_leftorder_request
+                        GameManager.GetComponent<GameManager>().getOrder(2f);
                     }
                     if (_state == 2)
                     {
+                        //playsound_leftplate_request
+                        GameManager.GetComponent<GameManager>().getPlate(2f);
+                    }
+                    if (_state == 3)
+                    {
                         //playsound_leftcheck_request
+                        GameManager.GetComponent<GameManager>().getCheck(2f);
                     }
                 }
                 if (_tableNum == 3)
                 {
-                    if (_state == 0)
-                    {
-                        //playsound_downorder_request
-                    }
                     if (_state == 1)
                     {
-                        //playsound_downplate_request
+                        //playsound_downorder_request
+                        GameManager.GetComponent<GameManager>().getOrder(4f);
                     }
                     if (_state == 2)
                     {
+                        //playsound_downplate_request
+                        GameManager.GetComponent<GameManager>().getPlate(4f);
+                    }
+                    if (_state == 3)
+                    {
                         //playsound_downcheck_request
+                        GameManager.GetComponent<GameManager>().getCheck(4f);
                     }
                 }
                 if (_tableNum == 4)
                 {
-                    if (_state == 0)
-                    {
-                        //playsound_rightorder_request
-                    }
                     if (_state == 1)
                     {
-                        //playsound_rightplate_request
+                        //playsound_rightorder_request
+                        GameManager.GetComponent<GameManager>().getOrder(3f);
                     }
                     if (_state == 2)
                     {
+                        //playsound_rightplate_request
+                        GameManager.GetComponent<GameManager>().getPlate(3f);
+                    }
+                    if (_state == 3)
+                    {
                         //playsound_rightcheck_request
+                        GameManager.GetComponent<GameManager>().getCheck(3f);
                     }
                 }
             }
@@ -192,9 +210,10 @@ public class Customer : MonoBehaviour
 
     public void _resetService()
     {
-        _serviceCooldown = Random.Range(5, 10);
+        _serviceCooldown = Random.Range(10, 15);
         _serviceTimer = _serviceCooldown;
         _serviceRequired = false;
         _patienceTimer = _basePatience;
+        Debug.Log("Table " + _tableNum + ": " + _patienceTimer);
     }
 }

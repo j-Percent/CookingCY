@@ -166,104 +166,162 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b706555d42c149799752041bb35dc31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timer: 0
+  ended: 0
   customer: {fileID: 468357436451906286, guid: b88c86ac7717dfe45b53d0e0d035e06e, type: 3}
-  _vipChance: 0
+  _vipChance: 0.1
   _customerSpawnTimer: 0
-  _customerSpawnMin: 5
-  _customerSpawnMax: 10
+  _customerSpawnMin: 7
+  _customerSpawnMax: 15
   table1: {fileID: 0}
   table2: {fileID: 0}
   table3: {fileID: 0}
   table4: {fileID: 0}
-  up_late:
+  jerryOrder:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  left_late:
+      Data1: 1418859545
+      Data2: 1099956365
+      Data3: 1308721850
+      Data4: 1576436910
+    Path: event:/JerryOrder
+  jerryPlate:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  right_late:
+      Data1: -662146812
+      Data2: 1297950143
+      Data3: 1647780747
+      Data4: 117815077
+    Path: event:/JerryPlate
+  jerryCheck:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  down_late:
+      Data1: 124642537
+      Data2: 1258310374
+      Data3: 1593722256
+      Data4: -1914969896
+    Path: event:/JerryCheck
+  jerryDone:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  up_player1_order:
+      Data1: 454626755
+      Data2: 1175758982
+      Data3: 1236187543
+      Data4: 585390001
+    Path: event:/JerryDone
+  leoOrder:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  up_player1_plate:
+      Data1: -1179752286
+      Data2: 1288096961
+      Data3: 613973162
+      Data4: -2037117827
+    Path: event:/LeoOrder
+  leoPlate:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  up_player1_check:
+      Data1: -961881892
+      Data2: 1161273162
+      Data3: -279368007
+      Data4: -1588908599
+    Path: event:/LeoPlate
+  leoCheck:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  up_player2_order:
+      Data1: 1137929287
+      Data2: 1267657742
+      Data3: 255967661
+      Data4: 531117880
+    Path: event:/LeoCheck
+  leoDone:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  up_player2_plate:
+      Data1: -286571836
+      Data2: 1209470745
+      Data3: -940916333
+      Data4: 1387771349
+    Path: event:/LeoDone
+  stunReference:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  up_player2_check:
+      Data1: 178771864
+      Data2: 1088845683
+      Data3: 347071638
+      Data4: -961615594
+    Path: event:/Stun
+  tableAngry:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  up_VIP_leave:
+      Data1: 1064414308
+      Data2: 1248965239
+      Data3: 366084763
+      Data4: 1557955635
+    Path: event:/TableAngry
+  tableCheck:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
-  up_leave:
+      Data1: 1274896189
+      Data2: 1221099191
+      Data3: 239945133
+      Data4: 1787907562
+    Path: event:/TableCheck
+  tableLeave:
     Guid:
-      Data1: 0
-      Data2: 0
-      Data3: 0
-      Data4: 0
-    Path: 
+      Data1: 2033362768
+      Data2: 1243890959
+      Data3: 1431175354
+      Data4: -727376533
+    Path: event:/TableLeave
+  tableOrder:
+    Guid:
+      Data1: 1453253579
+      Data2: 1200761833
+      Data3: 2101509002
+      Data4: 1331531150
+    Path: event:/TableOrder
+  tablePlate:
+    Guid:
+      Data1: 1970105132
+      Data2: 1292464933
+      Data3: -2056288333
+      Data4: -1130528869
+    Path: event:/TablePlate
+  tableWait:
+    Guid:
+      Data1: -616307421
+      Data2: 1103483199
+      Data3: 1718235782
+      Data4: -963781310
+    Path: event:/TableWait
+  vipAngry:
+    Guid:
+      Data1: -1837716933
+      Data2: 1306699557
+      Data3: 1577805202
+      Data4: -1170046894
+    Path: event:/VIPAngry
+  vipLeave:
+    Guid:
+      Data1: -1241338137
+      Data2: 1114368293
+      Data3: 744061852
+      Data4: 233899948
+    Path: event:/VIPLeave
+  vipTable:
+    Guid:
+      Data1: -530610826
+      Data2: 1273886524
+      Data3: -2127869563
+      Data4: -1250275065
+    Path: event:/VIPTable
+  finalRank:
+    Guid:
+      Data1: -82626347
+      Data2: 1132765075
+      Data3: -1951200348
+      Data4: 823356988
+    Path: event:/FinalRank
+  BGM:
+    Guid:
+      Data1: -1715954297
+      Data2: 1188004584
+      Data3: 1899960455
+      Data4: 1459464578
+    Path: event:/Music
   endgame: 0
   player1input: 0
   player2input: 0
   stun: 0
-  stunTImer: 0
+  stunTimer: 0
   stunCooldown: 0
 --- !u!1 &1832951115
 GameObject:
@@ -275,7 +333,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1832951118}
   - component: {fileID: 1832951117}
-  - component: {fileID: 1832951116}
+  - component: {fileID: 1832951119}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -283,14 +341,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1832951116
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1832951115}
-  m_Enabled: 1
 --- !u!20 &1832951117
 Camera:
   m_ObjectHideFlags: 0
@@ -301,7 +351,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -357,6 +407,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1832951119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1832951115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -404,11 +404,7 @@ MonoBehaviour:
   Plugins: []
   MasterBanks:
   - Master
-  - Desktop/Master
-  - Desktop/Desktop/Master
   Banks:
-  - Desktop/Desktop/SFX
-  - Desktop/SFX
   - SFX
   BanksToLoad: []
   LiveUpdatePort: 9264
