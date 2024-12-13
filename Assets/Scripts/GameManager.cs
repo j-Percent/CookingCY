@@ -20,22 +20,72 @@ public class GameManager : MonoBehaviour
     public GameObject table3;
     public GameObject table4;
 
-    #region tableup
-    public FMODUnity.EventReference up_late;
-    public FMODUnity.EventReference left_late;
-    public FMODUnity.EventReference right_late;
-    public FMODUnity.EventReference down_late;
+    #region Jerry AudioReferences
+    public FMODUnity.EventReference jerryOrder;
+    FMOD.Studio.EventInstance jOrderInstance;
 
-    public FMODUnity.EventReference up_player1_order;
-    public FMODUnity.EventReference up_player1_plate;
-    public FMODUnity.EventReference up_player1_check;
+    public FMODUnity.EventReference jerryPlate;
+    FMOD.Studio.EventInstance jPlateInstance;
 
-    public FMODUnity.EventReference up_player2_order;
-    public FMODUnity.EventReference up_player2_plate;
-    public FMODUnity.EventReference up_player2_check;
+    public FMODUnity.EventReference jerryCheck;
+    FMOD.Studio.EventInstance jCheckInstance;
+    #endregion
 
-    public FMODUnity.EventReference up_VIP_leave;
-    public FMODUnity.EventReference up_leave;
+    #region Leo AudioReferences
+    public FMODUnity.EventReference leoOrder;
+    FMOD.Studio.EventInstance lOrderInstance;
+
+    public FMODUnity.EventReference leoPlate;
+    FMOD.Studio.EventInstance lPlateInstance;
+
+    public FMODUnity.EventReference leoCheck;
+    FMOD.Studio.EventInstance lCheckInstance;
+    #endregion
+
+    #region Table AudioReferences
+    public FMODUnity.EventReference stunReference;
+    FMOD.Studio.EventInstance stunInstance;
+
+    public FMODUnity.EventReference tableAngry;
+    FMOD.Studio.EventInstance angryInstance;
+    FMOD.Studio.PARAMETER_ID angryTableNumber;
+
+    public FMODUnity.EventReference tableCheck;
+    FMOD.Studio.EventInstance checkInstance;
+    FMOD.Studio.PARAMETER_ID checkTableNumber;
+
+    public FMODUnity.EventReference tableLeave;
+    FMOD.Studio.EventInstance leaveInstance;
+    FMOD.Studio.PARAMETER_ID leaveTableNumber;
+
+    public FMODUnity.EventReference tableOrder;
+    FMOD.Studio.EventInstance orderInstance;
+    FMOD.Studio.PARAMETER_ID orderTableNumber;
+
+    public FMODUnity.EventReference tablePlate;
+    FMOD.Studio.EventInstance plateInstance;
+    FMOD.Studio.PARAMETER_ID plateTableNumber;
+
+    public FMODUnity.EventReference tableWait;
+    FMOD.Studio.EventInstance waitInstance;
+    FMOD.Studio.PARAMETER_ID waitTableNumber;
+
+    public FMODUnity.EventReference vipAngry;
+    FMOD.Studio.EventInstance vipAngryInstance;
+    FMOD.Studio.PARAMETER_ID vipAngryTableNumber;
+
+    public FMODUnity.EventReference vipLeave;
+    FMOD.Studio.EventInstance vipLeaveInstance;
+    FMOD.Studio.PARAMETER_ID vipLeaveTableNumber;
+
+    public FMODUnity.EventReference vipTable;
+    FMOD.Studio.EventInstance vipTableInstance;
+    FMOD.Studio.PARAMETER_ID vipAtTableNumber;
+
+    public FMODUnity.EventReference finalRank;
+    FMOD.Studio.EventInstance finalRankInstance;
+    FMOD.Studio.PARAMETER_ID finalRankScore;
+
     #endregion
 
 
@@ -51,6 +101,88 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        #region FMOD Instantiation
+        jOrderInstance = FMODUnity.RuntimeManager.CreateInstance(jerryOrder);
+        jPlateInstance = FMODUnity.RuntimeManager.CreateInstance(jerryPlate);
+        jCheckInstance = FMODUnity.RuntimeManager.CreateInstance(jerryCheck);
+
+        lOrderInstance = FMODUnity.RuntimeManager.CreateInstance(leoOrder);
+        lPlateInstance = FMODUnity.RuntimeManager.CreateInstance(leoPlate);
+        lCheckInstance = FMODUnity.RuntimeManager.CreateInstance(leoCheck);
+
+        stunInstance = FMODUnity.RuntimeManager.CreateInstance(stunReference);
+
+        angryInstance = FMODUnity.RuntimeManager.CreateInstance(tableAngry);
+        FMOD.Studio.EventDescription angryEventDescription;
+        angryInstance.getDescription(out angryEventDescription);
+        FMOD.Studio.PARAMETER_DESCRIPTION angryParameterDescription;
+        angryEventDescription.getParameterDescriptionByName("TableNumber", out angryParameterDescription);
+        angryTableNumber = angryParameterDescription.id;
+
+        checkInstance = FMODUnity.RuntimeManager.CreateInstance(tableCheck);
+        FMOD.Studio.EventDescription checkEventDescription;
+        checkInstance.getDescription(out checkEventDescription);
+        FMOD.Studio.PARAMETER_DESCRIPTION checkParameterDescription;
+        checkEventDescription.getParameterDescriptionByName("TableNumber", out checkParameterDescription);
+        checkTableNumber = checkParameterDescription.id;
+
+        leaveInstance = FMODUnity.RuntimeManager.CreateInstance(tableLeave);
+        FMOD.Studio.EventDescription leaveEventDescription;
+        leaveInstance.getDescription(out leaveEventDescription);
+        FMOD.Studio.PARAMETER_DESCRIPTION leaveParameterDescription;
+        leaveEventDescription.getParameterDescriptionByName("TableNumber", out leaveParameterDescription);
+        leaveTableNumber = leaveParameterDescription.id;
+
+        orderInstance = FMODUnity.RuntimeManager.CreateInstance(tableOrder);
+        FMOD.Studio.EventDescription orderEventDescription;
+        orderInstance.getDescription(out orderEventDescription);
+        FMOD.Studio.PARAMETER_DESCRIPTION orderParameterDescription;
+        orderEventDescription.getParameterDescriptionByName("TableNumber", out orderParameterDescription);
+        orderTableNumber = orderParameterDescription.id;
+
+        plateInstance = FMODUnity.RuntimeManager.CreateInstance(tablePlate);
+        FMOD.Studio.EventDescription plateEventDescription;
+        plateInstance.getDescription(out plateEventDescription);
+        FMOD.Studio.PARAMETER_DESCRIPTION plateParameterDescription;
+        plateEventDescription.getParameterDescriptionByName("TableNumber", out plateParameterDescription);
+        plateTableNumber = plateParameterDescription.id;
+
+        waitInstance = FMODUnity.RuntimeManager.CreateInstance(tableWait);
+        FMOD.Studio.EventDescription waitEventDescription;
+        waitInstance.getDescription(out waitEventDescription);
+        FMOD.Studio.PARAMETER_DESCRIPTION waitParameterDescription;
+        waitEventDescription.getParameterDescriptionByName("TableNumber", out waitParameterDescription);
+        waitTableNumber = waitParameterDescription.id;
+
+        vipAngryInstance = FMODUnity.RuntimeManager.CreateInstance(vipAngry);
+        FMOD.Studio.EventDescription vipAngryEventDescription;
+        vipAngryInstance.getDescription(out vipAngryEventDescription);
+        FMOD.Studio.PARAMETER_DESCRIPTION vipAngryParameterDescription;
+        vipAngryEventDescription.getParameterDescriptionByName("TableNumber", out vipAngryParameterDescription);
+        vipAngryTableNumber = vipAngryParameterDescription.id;
+
+        vipLeaveInstance = FMODUnity.RuntimeManager.CreateInstance(vipLeave);
+        FMOD.Studio.EventDescription vipLeaveEventDescription;
+        vipLeaveInstance.getDescription(out vipLeaveEventDescription);
+        FMOD.Studio.PARAMETER_DESCRIPTION vipLeaveParameterDescription;
+        vipLeaveEventDescription.getParameterDescriptionByName("TableNumber", out vipLeaveParameterDescription);
+        vipLeaveTableNumber = vipLeaveParameterDescription.id;
+
+        vipTableInstance = FMODUnity.RuntimeManager.CreateInstance(vipTable);
+        FMOD.Studio.EventDescription vipAtEventDescription;
+        vipTableInstance.getDescription(out vipAtEventDescription);
+        FMOD.Studio.PARAMETER_DESCRIPTION vipAtParameterDescription;
+        vipAtEventDescription.getParameterDescriptionByName("TableNumber", out vipAtParameterDescription);
+        vipAtTableNumber = vipAtParameterDescription.id;
+
+        finalRankInstance = FMODUnity.RuntimeManager.CreateInstance(finalRank);
+        FMOD.Studio.EventDescription rankEventDescription;
+        finalRankInstance.getDescription(out rankEventDescription);
+        FMOD.Studio.PARAMETER_DESCRIPTION rankParameterDescription;
+        rankEventDescription.getParameterDescriptionByName("Rank", out rankParameterDescription);
+        finalRankScore = rankParameterDescription.id;
+        #endregion
+
         _customerSpawnTimer = UnityEngine.Random.Range(_customerSpawnMin, _customerSpawnMax);
     }
 
