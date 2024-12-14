@@ -317,6 +317,29 @@ MonoBehaviour:
       Data3: 1899960455
       Data4: 1459464578
     Path: event:/Music
+  title:
+    Guid:
+      Data1: 2085212636
+      Data2: 1220949581
+      Data3: 1717724828
+      Data4: 884587668
+    Path: event:/Start
+  tutorial:
+    Guid:
+      Data1: 858400510
+      Data2: 1157773555
+      Data3: -1683299155
+      Data4: -1348132922
+    Path: event:/Tutorial
+  ready:
+    Guid:
+      Data1: -519562568
+      Data2: 1310508071
+      Data3: -1761802319
+      Data4: 631201355
+    Path: event:/Ready
+  tutorialPlayed: 0
+  gameStart: 0
   endgame: 0
   player1input: 0
   player2input: 0

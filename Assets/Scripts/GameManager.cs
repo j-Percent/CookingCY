@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FMODUnity;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -98,8 +99,20 @@ public class GameManager : MonoBehaviour
     public FMODUnity.EventReference BGM;
     FMOD.Studio.EventInstance BGMInstance;
 
+    public FMODUnity.EventReference title;
+    FMOD.Studio.EventInstance titleInstance;
+
+    public FMODUnity.EventReference tutorial;
+    FMOD.Studio.EventInstance tutorialInstance;
+
+    public FMODUnity.EventReference ready;
+    FMOD.Studio.EventInstance readyInstance;
+
     #endregion
 
+
+    public bool tutorialPlayed = false;
+    public bool gameStart = false;
 
     public bool endgame = false;
 
@@ -113,8 +126,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
-
         #region FMOD Instantiation
         jOrderInstance = FMODUnity.RuntimeManager.CreateInstance(jerryOrder);
         jPlateInstance = FMODUnity.RuntimeManager.CreateInstance(jerryPlate);
@@ -199,6 +210,10 @@ public class GameManager : MonoBehaviour
         FMOD.Studio.PARAMETER_DESCRIPTION rankParameterDescription;
         rankEventDescription.getParameterDescriptionByName("Rank", out rankParameterDescription);
         finalRankScore = rankParameterDescription.id;
+
+        titleInstance = FMODUnity.RuntimeManager.CreateInstance(title);
+        tutorialInstance = FMODUnity.RuntimeManager.CreateInstance(tutorial);
+        readyInstance = FMODUnity.RuntimeManager.CreateInstance(ready);
         #endregion
 
         _customerSpawnTimer = UnityEngine.Random.Range(_customerSpawnMin, _customerSpawnMax);
@@ -211,46 +226,70 @@ public class GameManager : MonoBehaviour
                 BGMInstance.start();
             }
         }
+        if (titleInstance.isValid())
+        {
+            FMOD.Studio.PLAYBACK_STATE playbackState;
+            titleInstance.getPlaybackState(out playbackState);
+            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+            {
+                titleInstance.start();
+            }
+        }
     }
 
     #region AudioGetterMethods
     public void getAngry(float tableNum)
     {
-        angryInstance.setParameterByID(angryTableNumber, tableNum);
-        if (angryInstance.isValid())
+        if (ended == false)
         {
-            angryInstance.start();
+            angryInstance.setParameterByID(angryTableNumber, tableNum);
+            if (angryInstance.isValid())
+            {
+                angryInstance.start();
+            }
         }
     }
     public void getOrder(float tableNum)
     {
-        orderInstance.setParameterByID(orderTableNumber, tableNum);
-        if (orderInstance.isValid())
+        if (ended == false)
         {
-            orderInstance.start();
+            orderInstance.setParameterByID(orderTableNumber, tableNum);
+            if (orderInstance.isValid())
+            {
+                orderInstance.start();
+            }
         }
     }
     public void getPlate(float tableNum)
     {
-        plateInstance.setParameterByID(plateTableNumber, tableNum);
-        if (plateInstance.isValid())
+        if (ended == false)
         {
-            plateInstance.start();
+            plateInstance.setParameterByID(plateTableNumber, tableNum);
+            if (plateInstance.isValid())
+            {
+                plateInstance.start();
+            }
         }
     }
     public void getCheck(float tableNum)
     {
-        checkInstance.setParameterByID(orderTableNumber, tableNum);
-        if (checkInstance.isValid())
+        if (ended == false)
         {
-            checkInstance.start();
+            checkInstance.setParameterByID(orderTableNumber, tableNum);
+            if (checkInstance.isValid())
+            {
+                checkInstance.start();
+            }
         }
     }
     public void getVIPAngry()
     {
-        if (vipAngryInstance.isValid())
+        if (ended == false)
         {
-            vipAngryInstance.start();
+            if (vipAngryInstance.isValid())
+            {
+                vipAngryInstance.start();
+            }
         }
     }
     public void getJDone(int tableNum)
@@ -272,11 +311,217 @@ public class GameManager : MonoBehaviour
 
     public void getEnd (float rank)
     {
+        getEndAll();
         finalRankInstance.setParameterByID(finalRankScore, rank);
         if (finalRankInstance.isValid())
         {
             finalRankInstance.start();
         }
+    }
+    public void getEndAll()
+    {
+        if (jOrderInstance.isValid())
+        {
+            FMOD.Studio.PLAYBACK_STATE playbackState;
+            jOrderInstance.getPlaybackState(out playbackState);
+            if (playbackState == FMOD.Studio.PLAYBACK_STATE.PLAYING)
+            {
+                jOrderInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+        }
+        if (jPlateInstance.isValid())
+        {
+            FMOD.Studio.PLAYBACK_STATE playbackState;
+            jPlateInstance.getPlaybackState(out playbackState);
+            if (playbackState == FMOD.Studio.PLAYBACK_STATE.PLAYING)
+            {
+                jPlateInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+        }
+        if (jCheckInstance.isValid())
+        {
+            FMOD.Studio.PLAYBACK_STATE playbackState;
+            jCheckInstance.getPlaybackState(out playbackState);
+            if (playbackState == FMOD.Studio.PLAYBACK_STATE.PLAYING)
+            {
+                jCheckInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+        }
+        if (jDoneInstance.isValid())
+        {
+            FMOD.Studio.PLAYBACK_STATE playbackState;
+            jDoneInstance.getPlaybackState(out playbackState);
+            if (playbackState == FMOD.Studio.PLAYBACK_STATE.PLAYING)
+            {
+                jDoneInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+        }
+        if (lOrderInstance.isValid())
+        {
+            FMOD.Studio.PLAYBACK_STATE playbackState;
+            lOrderInstance.getPlaybackState(out playbackState);
+            if (playbackState == FMOD.Studio.PLAYBACK_STATE.PLAYING)
+            {
+                lOrderInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+        }
+        if (lPlateInstance.isValid())
+        {
+            FMOD.Studio.PLAYBACK_STATE playbackState;
+            lPlateInstance.getPlaybackState(out playbackState);
+            if (playbackState == FMOD.Studio.PLAYBACK_STATE.PLAYING)
+            {
+                lPlateInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+        }
+        if (lCheckInstance.isValid())
+        {
+            FMOD.Studio.PLAYBACK_STATE playbackState;
+            lCheckInstance.getPlaybackState(out playbackState);
+            if (playbackState == FMOD.Studio.PLAYBACK_STATE.PLAYING)
+            {
+                lCheckInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+        }
+        if (lDoneInstance.isValid())
+        {
+            FMOD.Studio.PLAYBACK_STATE playbackState;
+            lDoneInstance.getPlaybackState(out playbackState);
+            if (playbackState == FMOD.Studio.PLAYBACK_STATE.PLAYING)
+            {
+                lDoneInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+        }
+        if (stunInstance.isValid())
+        {
+            FMOD.Studio.PLAYBACK_STATE playbackState;
+            stunInstance.getPlaybackState(out playbackState);
+            if (playbackState == FMOD.Studio.PLAYBACK_STATE.PLAYING)
+            {
+                stunInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+        }
+        if (angryInstance.isValid())
+        {
+            FMOD.Studio.PLAYBACK_STATE playbackState;
+            angryInstance.getPlaybackState(out playbackState);
+            if (playbackState == FMOD.Studio.PLAYBACK_STATE.PLAYING)
+            {
+                angryInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+        }
+        if (checkInstance.isValid())
+        {
+            FMOD.Studio.PLAYBACK_STATE playbackState;
+            checkInstance.getPlaybackState(out playbackState);
+            if (playbackState == FMOD.Studio.PLAYBACK_STATE.PLAYING)
+            {
+                checkInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+        }
+        if (leaveInstance.isValid())
+        {
+            FMOD.Studio.PLAYBACK_STATE playbackState;
+            leaveInstance.getPlaybackState(out playbackState);
+            if (playbackState == FMOD.Studio.PLAYBACK_STATE.PLAYING)
+            {
+                leaveInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+        }
+        if (orderInstance.isValid())
+        {
+            FMOD.Studio.PLAYBACK_STATE playbackState;
+            orderInstance.getPlaybackState(out playbackState);
+            if (playbackState == FMOD.Studio.PLAYBACK_STATE.PLAYING)
+            {
+                orderInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+        }
+        if (plateInstance.isValid())
+        {
+            FMOD.Studio.PLAYBACK_STATE playbackState;
+            plateInstance.getPlaybackState(out playbackState);
+            if (playbackState == FMOD.Studio.PLAYBACK_STATE.PLAYING)
+            {
+                plateInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+        }
+        if (waitInstance.isValid())
+        {
+            FMOD.Studio.PLAYBACK_STATE playbackState;
+            waitInstance.getPlaybackState(out playbackState);
+            if (playbackState == FMOD.Studio.PLAYBACK_STATE.PLAYING)
+            {
+                waitInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+        }
+        if (vipAngryInstance.isValid())
+        {
+            FMOD.Studio.PLAYBACK_STATE playbackState;
+            vipAngryInstance.getPlaybackState(out playbackState);
+            if (playbackState == FMOD.Studio.PLAYBACK_STATE.PLAYING)
+            {
+                vipAngryInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+        }
+        if (vipLeaveInstance.isValid())
+        {
+            FMOD.Studio.PLAYBACK_STATE playbackState;
+            vipLeaveInstance.getPlaybackState(out playbackState);
+            if (playbackState == FMOD.Studio.PLAYBACK_STATE.PLAYING)
+            {
+                vipLeaveInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+        }
+        if (vipTableInstance.isValid())
+        {
+            FMOD.Studio.PLAYBACK_STATE playbackState;
+            vipTableInstance.getPlaybackState(out playbackState);
+            if (playbackState == FMOD.Studio.PLAYBACK_STATE.PLAYING)
+            {
+                vipTableInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+        }
+        if (titleInstance.isValid())
+        {
+            FMOD.Studio.PLAYBACK_STATE playbackState;
+            titleInstance.getPlaybackState(out playbackState);
+            if (playbackState == FMOD.Studio.PLAYBACK_STATE.PLAYING)
+            {
+                titleInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+        }
+        if (tutorialInstance.isValid())
+        {
+            FMOD.Studio.PLAYBACK_STATE playbackState;
+            tutorialInstance.getPlaybackState(out playbackState);
+            if (playbackState == FMOD.Studio.PLAYBACK_STATE.PLAYING)
+            {
+                tutorialInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+        }
+        if (readyInstance.isValid())
+        {
+            FMOD.Studio.PLAYBACK_STATE playbackState;
+            readyInstance.getPlaybackState(out playbackState);
+            if (playbackState == FMOD.Studio.PLAYBACK_STATE.PLAYING)
+            {
+                readyInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+        }
+    }
+    public void getEndScene()
+    {
+        if (finalRankInstance.isValid())
+        {
+            FMOD.Studio.PLAYBACK_STATE playbackState;
+            finalRankInstance.getPlaybackState(out playbackState);
+            if (playbackState == FMOD.Studio.PLAYBACK_STATE.PLAYING)
+            {
+                finalRankInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            }
+        }
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
     #endregion
 
@@ -311,255 +556,281 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        timer += Time.deltaTime;
-
-        if (endgame == true && ended == false)
+        if (Input.GetKeyDown(KeyCode.R))
         {
-            ended = true;
-            if(timer <= 120)
+            getEndAll();
+            getEndScene();
+        }
+        if (tutorialPlayed == false)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                //f
-                getEnd(6);
-            }
-            else if(timer <= 150)
-            {
-                //d
-                getEnd(5);
-            }
-            else if (timer <= 180)
-            {
-                //c
-                getEnd(4);
-            }
-            else if (timer <= 210)
-            {
-                //b
-                getEnd(3);
-            }
-            else if (timer <= 240)
-            {
-                //a
-                getEnd(2);
-            }
-            else if(timer <= 270)
-            {
-                //s
-                getEnd(1);
+                titleInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                if (tutorialInstance.isValid())
+                {
+                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                    tutorialInstance.getPlaybackState(out playbackState);
+                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                    {
+                        tutorialInstance.start();
+                    }
+                }
+                tutorialPlayed = true;
             }
         }
-
-        if (table1 != null && table1.GetComponent<Customer>()._patienceTimer <= 30)
+        if (tutorialPlayed && gameStart == false)
         {
-            //playsound_uplate
-            waitInstance.setParameterByID(waitTableNumber, 1f);
-            if (waitInstance.isValid())
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (tutorialInstance.isValid())
+                {
+                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                    tutorialInstance.getPlaybackState(out playbackState);
+                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.PLAYING)
+                    {
+                        tutorialInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+                    }
+                }
+            }
+            if (tutorialInstance.isValid())
             {
                 FMOD.Studio.PLAYBACK_STATE playbackState;
-                waitInstance.getPlaybackState(out playbackState);
+                tutorialInstance.getPlaybackState(out playbackState);
                 if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
                 {
-                    waitInstance.start();
+                    if (readyInstance.isValid())
+                    {
+                        readyInstance.start();
+                        gameStart = true;
+                    }
                 }
             }
         }
-        if (table2 != null && table2.GetComponent<Customer>()._patienceTimer <= 30)
+        if (ended)
         {
-            //playsound_leftlate
-            waitInstance.setParameterByID(waitTableNumber, 2f);
-            if (waitInstance.isValid())
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                FMOD.Studio.PLAYBACK_STATE playbackState;
-                waitInstance.getPlaybackState(out playbackState);
-                if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                {
-                    waitInstance.start();
-                }
+                getEndAll();
+                getEndScene();
             }
         }
-        if (table3 != null && table3.GetComponent<Customer>()._patienceTimer <= 30)
+
+        if (gameStart && !ended)
         {
-            //playsound_downlate
-            waitInstance.setParameterByID(waitTableNumber, 4f);
-            if (waitInstance.isValid())
+            timer += Time.deltaTime;
+
+            if (table1 != null && table1.GetComponent<Customer>()._patienceTimer <= 30)
             {
-                FMOD.Studio.PLAYBACK_STATE playbackState;
-                waitInstance.getPlaybackState(out playbackState);
-                if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                //playsound_uplate
+                waitInstance.setParameterByID(waitTableNumber, 1f);
+                if (waitInstance.isValid())
                 {
-                    waitInstance.start();
+                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                    waitInstance.getPlaybackState(out playbackState);
+                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                    {
+                        waitInstance.start();
+                    }
                 }
             }
-        }
-        if (table4 != null && table4.GetComponent<Customer>()._patienceTimer <= 30)
-        {
-            //playsound_rightlate
-            waitInstance.setParameterByID(waitTableNumber, 3f);
-            if (waitInstance.isValid())
+            if (table2 != null && table2.GetComponent<Customer>()._patienceTimer <= 30)
             {
-                FMOD.Studio.PLAYBACK_STATE playbackState;
-                waitInstance.getPlaybackState(out playbackState);
-                if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                //playsound_leftlate
+                waitInstance.setParameterByID(waitTableNumber, 2f);
+                if (waitInstance.isValid())
                 {
-                    waitInstance.start();
+                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                    waitInstance.getPlaybackState(out playbackState);
+                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                    {
+                        waitInstance.start();
+                    }
                 }
             }
-        }
-
-
-
-        if (stunTimer >= 0)
-        {
-            stunTimer -= Time.deltaTime;
-        }
-
-        if (stunTimer <= 0)
-        {
-            stun = false;
-        }
-
-        if (table1 != null && table1.GetComponent<Customer>()._serviceRequired == true && stun == false)
-        {
-
-            if(table1.GetComponent<Customer>()._isVIP == true)
+            if (table3 != null && table3.GetComponent<Customer>()._patienceTimer <= 30)
             {
-                var customer1 = table1.GetComponent<Customer>();
-
-                if (Input.GetKeyDown(KeyCode.W))
+                //playsound_downlate
+                waitInstance.setParameterByID(waitTableNumber, 4f);
+                if (waitInstance.isValid())
                 {
-                    if (player1input != KeyCode.W)
+                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                    waitInstance.getPlaybackState(out playbackState);
+                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
                     {
-                        keycheck(player1input);
-                        player1input = KeyCode.W;
-                    }
-                    if (customer1._playerState == 0 || customer1._playerState == 2)
-                    {
-                        customer1._playerState = 1;
-                        customer1._clickingCount += 1;
-                    }
-                    if(customer1._state == 1)
-                    {
-                        //playsound_up1order
-                        if (lOrderInstance.isValid())
-                        {
-                            FMOD.Studio.PLAYBACK_STATE playbackState;
-                            lOrderInstance.getPlaybackState(out playbackState);
-                            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                            {
-                                lOrderInstance.start();
-                            }
-                        }
-                    }
-                    if (customer1._state == 2)
-                    {
-                        //playsound_up1plate
-                        if (lPlateInstance.isValid())
-                        {
-                            FMOD.Studio.PLAYBACK_STATE playbackState;
-                            lPlateInstance.getPlaybackState(out playbackState);
-                            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                            {
-                                lPlateInstance.start();
-                            }
-                        }
-                    }
-                    if (customer1._state == 3)
-                    {
-                        //playsound_up1check
-                        if (lCheckInstance.isValid())
-                        {
-                            FMOD.Studio.PLAYBACK_STATE playbackState;
-                            lCheckInstance.getPlaybackState(out playbackState);
-                            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                            {
-                                lCheckInstance.start();
-                            }
-                        }
+                        waitInstance.start();
                     }
                 }
-                else if (Input.GetKeyDown(KeyCode.UpArrow))
+            }
+            if (table4 != null && table4.GetComponent<Customer>()._patienceTimer <= 30)
+            {
+                //playsound_rightlate
+                waitInstance.setParameterByID(waitTableNumber, 3f);
+                if (waitInstance.isValid())
                 {
-                    if (player2input != KeyCode.UpArrow)
+                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                    waitInstance.getPlaybackState(out playbackState);
+                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
                     {
-                        keycheck(player2input);
-                        player2input = KeyCode.UpArrow;
-                    }
-                    if (customer1._playerState == 0 || customer1._playerState == 1)
-                    {
-                        customer1._playerState = 2;
-                        customer1._clickingCount += 1;
-                    }
-                    if (customer1._state == 1)
-                    {
-                        if (jOrderInstance.isValid())
-                        {
-                            FMOD.Studio.PLAYBACK_STATE playbackState;
-                            jOrderInstance.getPlaybackState(out playbackState);
-                            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                            {
-                                jOrderInstance.start();
-                            }
-                        }
-                    }
-                    if (customer1._state == 2)
-                    {
-                        //playsound_up2plate
-                        if (jPlateInstance.isValid())
-                        {
-                            FMOD.Studio.PLAYBACK_STATE playbackState;
-                            jPlateInstance.getPlaybackState(out playbackState);
-                            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                            {
-                                jPlateInstance.start();
-                            }
-                        }
-                    }
-                    if (customer1._state == 3)
-                    {
-                        //playsound_up2check
-                        if (jCheckInstance.isValid())
-                        {
-                            FMOD.Studio.PLAYBACK_STATE playbackState;
-                            jCheckInstance.getPlaybackState(out playbackState);
-                            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                            {
-                                jCheckInstance.start();
-                            }
-                        }
+                        waitInstance.start();
                     }
                 }
-
-                if (customer1._clickingCount >= 30)
-                {
-                    customer1._playerState = 0;
-                    customer1._clickingCount = 0;
-                   
-                    customer1._state += 1;
-                    customer1._resetService();
-                    getJDone(1);
-                    getLDone(1);
-                }
-
-                if (customer1._state == 4)
-                {
-                    //playsound_upVIP_leave
-                    if (vipLeaveInstance.isValid())
-                    {
-                        vipLeaveInstance.start();
-                    }
-                    Destroy(customer1);
-                    table1 = null;
-                }
-
             }
 
-            else if (table1.GetComponent<Customer>()._isVIP == false) {
 
-                if (Input.GetKeyDown(KeyCode.W))
+
+            if (stunTimer >= 0)
+            {
+                stunTimer -= Time.deltaTime;
+            }
+
+            if (stunTimer <= 0)
+            {
+                stun = false;
+            }
+
+            if (table1 != null && table1.GetComponent<Customer>()._serviceRequired == true && stun == false)
+            {
+
+                if (table1.GetComponent<Customer>()._isVIP == true)
+                {
+                    var customer1 = table1.GetComponent<Customer>();
+
+                    if (Input.GetKeyDown(KeyCode.W))
+                    {
+                        if (player1input != KeyCode.W)
+                        {
+                            keycheck(player1input);
+                            player1input = KeyCode.W;
+                        }
+                        if (customer1._playerState == 0 || customer1._playerState == 2)
+                        {
+                            customer1._playerState = 1;
+                            customer1._clickingCount += 1;
+                        }
+                        if (customer1._state == 1)
+                        {
+                            //playsound_up1order
+                            if (lOrderInstance.isValid())
+                            {
+                                FMOD.Studio.PLAYBACK_STATE playbackState;
+                                lOrderInstance.getPlaybackState(out playbackState);
+                                if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                {
+                                    lOrderInstance.start();
+                                }
+                            }
+                        }
+                        if (customer1._state == 2)
+                        {
+                            //playsound_up1plate
+                            if (lPlateInstance.isValid())
+                            {
+                                FMOD.Studio.PLAYBACK_STATE playbackState;
+                                lPlateInstance.getPlaybackState(out playbackState);
+                                if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                {
+                                    lPlateInstance.start();
+                                }
+                            }
+                        }
+                        if (customer1._state == 3)
+                        {
+                            //playsound_up1check
+                            if (lCheckInstance.isValid())
+                            {
+                                FMOD.Studio.PLAYBACK_STATE playbackState;
+                                lCheckInstance.getPlaybackState(out playbackState);
+                                if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                {
+                                    lCheckInstance.start();
+                                }
+                            }
+                        }
+                    }
+                    else if (Input.GetKeyDown(KeyCode.UpArrow))
+                    {
+                        if (player2input != KeyCode.UpArrow)
+                        {
+                            keycheck(player2input);
+                            player2input = KeyCode.UpArrow;
+                        }
+                        if (customer1._playerState == 0 || customer1._playerState == 1)
+                        {
+                            customer1._playerState = 2;
+                            customer1._clickingCount += 1;
+                        }
+                        if (customer1._state == 1)
+                        {
+                            if (jOrderInstance.isValid())
+                            {
+                                FMOD.Studio.PLAYBACK_STATE playbackState;
+                                jOrderInstance.getPlaybackState(out playbackState);
+                                if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                {
+                                    jOrderInstance.start();
+                                }
+                            }
+                        }
+                        if (customer1._state == 2)
+                        {
+                            //playsound_up2plate
+                            if (jPlateInstance.isValid())
+                            {
+                                FMOD.Studio.PLAYBACK_STATE playbackState;
+                                jPlateInstance.getPlaybackState(out playbackState);
+                                if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                {
+                                    jPlateInstance.start();
+                                }
+                            }
+                        }
+                        if (customer1._state == 3)
+                        {
+                            //playsound_up2check
+                            if (jCheckInstance.isValid())
+                            {
+                                FMOD.Studio.PLAYBACK_STATE playbackState;
+                                jCheckInstance.getPlaybackState(out playbackState);
+                                if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                {
+                                    jCheckInstance.start();
+                                }
+                            }
+                        }
+                    }
+
+                    if (customer1._clickingCount >= 30)
+                    {
+                        customer1._playerState = 0;
+                        customer1._clickingCount = 0;
+
+                        customer1._state += 1;
+                        customer1._resetService();
+                        getJDone(1);
+                        getLDone(1);
+                    }
+
+                    if (customer1._state == 4)
+                    {
+                        //playsound_upVIP_leave
+                        if (vipLeaveInstance.isValid())
+                        {
+                            vipLeaveInstance.start();
+                        }
+                        Destroy(customer1);
+                        table1 = null;
+                    }
+
+                }
+
+                else if (table1.GetComponent<Customer>()._isVIP == false)
+                {
+
+                    if (Input.GetKeyDown(KeyCode.W))
                     {
                         var customer1 = table1.GetComponent<Customer>();
 
-                        if(player1input != KeyCode.W)
+                        if (player1input != KeyCode.W)
                         {
                             keycheck(player1input);
                             player1input = KeyCode.W;
@@ -632,7 +903,7 @@ public class GameManager : MonoBehaviour
                             customer1._clickingCount = 0;
                             customer1._state += 1;
                             customer1._resetService();
-                        getLDone(1);
+                            getLDone(1);
                         }
 
                         if (customer1._state == 4)
@@ -646,253 +917,118 @@ public class GameManager : MonoBehaviour
                             Destroy(customer1);
                             table1 = null;
                         }
-                    
+
                     }
 
 
-                if (Input.GetKeyDown(KeyCode.UpArrow))
-                {
+                    if (Input.GetKeyDown(KeyCode.UpArrow))
+                    {
 
-                    var customer1 = table1.GetComponent<Customer>();
+                        var customer1 = table1.GetComponent<Customer>();
 
-                    if (player2input != KeyCode.UpArrow)
-                    {
-                        keycheck(player2input);
-                        player2input = KeyCode.UpArrow;
-                    }
-                    //change player state based on player 1's interaction
-                    if (customer1._playerState == 0)
-                    {
-                        customer1._playerState = 2;
-                        customer1._clickingCount += 1;
-                    }
-                    else if (customer1._playerState == 2)
-                    {
-                        customer1._clickingCount += 1;
-                        if (customer1._state == 1)
+                        if (player2input != KeyCode.UpArrow)
                         {
-                            if (jOrderInstance.isValid())
+                            keycheck(player2input);
+                            player2input = KeyCode.UpArrow;
+                        }
+                        //change player state based on player 1's interaction
+                        if (customer1._playerState == 0)
+                        {
+                            customer1._playerState = 2;
+                            customer1._clickingCount += 1;
+                        }
+                        else if (customer1._playerState == 2)
+                        {
+                            customer1._clickingCount += 1;
+                            if (customer1._state == 1)
                             {
-                                FMOD.Studio.PLAYBACK_STATE playbackState;
-                                jOrderInstance.getPlaybackState(out playbackState);
-                                if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                if (jOrderInstance.isValid())
                                 {
-                                    jOrderInstance.start();
+                                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                                    jOrderInstance.getPlaybackState(out playbackState);
+                                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                    {
+                                        jOrderInstance.start();
+                                    }
+                                }
+                            }
+                            if (customer1._state == 2)
+                            {
+                                //playsound_up2plate
+                                if (jPlateInstance.isValid())
+                                {
+                                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                                    jPlateInstance.getPlaybackState(out playbackState);
+                                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                    {
+                                        jPlateInstance.start();
+                                    }
+                                }
+                            }
+                            if (customer1._state == 3)
+                            {
+                                //playsound_up2check
+                                if (jCheckInstance.isValid())
+                                {
+                                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                                    jCheckInstance.getPlaybackState(out playbackState);
+                                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                    {
+                                        jCheckInstance.start();
+                                    }
                                 }
                             }
                         }
-                        if (customer1._state == 2)
+                        else if (customer1._playerState == 1)
                         {
-                            //playsound_up2plate
-                            if (jPlateInstance.isValid())
+                            customer1._playerState = 0;
+                            customer1._clickingCount = 0;
+                            stun = true;
+                            stunTimer = 2f;
+                            Debug.Log("stun");
+                            if (stunInstance.isValid())
                             {
-                                FMOD.Studio.PLAYBACK_STATE playbackState;
-                                jPlateInstance.getPlaybackState(out playbackState);
-                                if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                                {
-                                    jPlateInstance.start();
-                                }
+                                stunInstance.start();
                             }
                         }
-                        if (customer1._state == 3)
-                        {
-                            //playsound_up2check
-                            if (jCheckInstance.isValid())
-                            {
-                                FMOD.Studio.PLAYBACK_STATE playbackState;
-                                jCheckInstance.getPlaybackState(out playbackState);
-                                if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                                {
-                                    jCheckInstance.start();
-                                }
-                            }
-                        }
-                    }
-                    else if (customer1._playerState == 1)
-                    {
-                        customer1._playerState = 0;
-                        customer1._clickingCount = 0;
-                        stun = true;
-                        stunTimer = 2f;
-                        Debug.Log("stun");
-                        if (stunInstance.isValid())
-                        {
-                            stunInstance.start();
-                        }
-                    }
 
-                    if (customer1._clickingCount >= 15)
-                    {
-                        customer1._playerState = 0;
-                        customer1._clickingCount = 0;
-                        customer1._state += 1;
-                        customer1._resetService();
-                        getJDone(1);
-                    }
-                    if (customer1._state == 4)
-                    {
-                        Destroy(customer1);
-                        table1 = null;
+                        if (customer1._clickingCount >= 15)
+                        {
+                            customer1._playerState = 0;
+                            customer1._clickingCount = 0;
+                            customer1._state += 1;
+                            customer1._resetService();
+                            getJDone(1);
+                        }
+                        if (customer1._state == 4)
+                        {
+                            Destroy(customer1);
+                            table1 = null;
+                        }
                     }
                 }
             }
-        }
 
-        if (table2 != null && table2.GetComponent<Customer>()._serviceRequired == true && stun == false)
-        {
-
-            if (table2.GetComponent<Customer>()._isVIP == true)
+            if (table2 != null && table2.GetComponent<Customer>()._serviceRequired == true && stun == false)
             {
-                var customer1 = table2.GetComponent<Customer>();
 
-                if (Input.GetKeyDown(KeyCode.A))
-                {
-                    if (player1input != KeyCode.A)
-                    {
-                        keycheck(player1input);
-                        player1input = KeyCode.A;
-                    }
-                    if (customer1._playerState == 0 || customer1._playerState == 2)
-                    {
-                        customer1._playerState = 1;
-                        customer1._clickingCount += 1;
-                    }
-                    if (customer1._state == 1)
-                    {
-                        //playsound_up1order
-                        if (lOrderInstance.isValid())
-                        {
-                            FMOD.Studio.PLAYBACK_STATE playbackState;
-                            lOrderInstance.getPlaybackState(out playbackState);
-                            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                            {
-                                lOrderInstance.start();
-                            }
-                        }
-                    }
-                    if (customer1._state == 2)
-                    {
-                        //playsound_up1plate
-                        if (lPlateInstance.isValid())
-                        {
-                            FMOD.Studio.PLAYBACK_STATE playbackState;
-                            lPlateInstance.getPlaybackState(out playbackState);
-                            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                            {
-                                lPlateInstance.start();
-                            }
-                        }
-                    }
-                    if (customer1._state == 3)
-                    {
-                        //playsound_up1check
-                        if (lCheckInstance.isValid())
-                        {
-                            FMOD.Studio.PLAYBACK_STATE playbackState;
-                            lCheckInstance.getPlaybackState(out playbackState);
-                            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                            {
-                                lCheckInstance.start();
-                            }
-                        }
-                    }
-                }
-                else if (Input.GetKeyDown(KeyCode.LeftArrow))
-                {
-                    if (player2input != KeyCode.LeftArrow)
-                    {
-                        keycheck(player2input);
-                        player2input = KeyCode.LeftArrow;
-                    }
-                    if (customer1._playerState == 0 || customer1._playerState == 1)
-                    {
-                        customer1._playerState = 2;
-                        customer1._clickingCount += 1;
-                    }
-                    if (customer1._state == 1)
-                    {
-                        //playsound_up2order
-                        if (jOrderInstance.isValid())
-                        {
-                            FMOD.Studio.PLAYBACK_STATE playbackState;
-                            jOrderInstance.getPlaybackState(out playbackState);
-                            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                            {
-                                jOrderInstance.start();
-                            }
-                        }
-                    }
-                    if (customer1._state == 2)
-                    {
-                        //playsound_up2plate
-                        if (jPlateInstance.isValid())
-                        {
-                            FMOD.Studio.PLAYBACK_STATE playbackState;
-                            jPlateInstance.getPlaybackState(out playbackState);
-                            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                            {
-                                jPlateInstance.start();
-                            }
-                        }
-                    }
-                    if (customer1._state == 3)
-                    {
-                        //playsound_up2check
-                        if (jCheckInstance.isValid())
-                        {
-                            FMOD.Studio.PLAYBACK_STATE playbackState;
-                            jCheckInstance.getPlaybackState(out playbackState);
-                            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                            {
-                                jCheckInstance.start();
-                            }
-                        }
-                    }
-                }
-
-                if (customer1._clickingCount >= 30)
-                {
-                    customer1._playerState = 0;
-                    customer1._clickingCount = 0;
-                    customer1._state += 1;
-                    customer1._resetService();
-                    getLDone(2);
-                    getJDone(2);
-                }
-
-                if (customer1._state == 4)
-                {
-                    Destroy(customer1);
-                    table2 = null;
-                    //playsound_upVIP_leave
-                    if (vipLeaveInstance.isValid())
-                    {
-                        vipLeaveInstance.start();
-                    }
-                }
-
-            }
-
-            else if (table2.GetComponent<Customer>()._isVIP == false)
-            {
-                if (Input.GetKeyDown(KeyCode.A))
+                if (table2.GetComponent<Customer>()._isVIP == true)
                 {
                     var customer1 = table2.GetComponent<Customer>();
-                    if (player1input != KeyCode.A)
-                    {
-                        keycheck(player1input);
-                        player1input = KeyCode.A;
-                    }
 
-                    //change player state based on player 1's interaction
-                    if (customer1._playerState == 0)
+                    if (Input.GetKeyDown(KeyCode.A))
                     {
-                        customer1._playerState = 1;
-                        customer1._clickingCount += 1;
-                    }
-                    else if (customer1._playerState == 1)
-                    {
-                        customer1._clickingCount += 1; if (customer1._state == 1)
+                        if (player1input != KeyCode.A)
+                        {
+                            keycheck(player1input);
+                            player1input = KeyCode.A;
+                        }
+                        if (customer1._playerState == 0 || customer1._playerState == 2)
+                        {
+                            customer1._playerState = 1;
+                            customer1._clickingCount += 1;
+                        }
+                        if (customer1._state == 1)
                         {
                             //playsound_up1order
                             if (lOrderInstance.isValid())
@@ -932,293 +1068,289 @@ public class GameManager : MonoBehaviour
                             }
                         }
                     }
-                    else if (customer1._playerState == 2)
+                    else if (Input.GetKeyDown(KeyCode.LeftArrow))
                     {
-                        customer1._playerState = 0;
-                        customer1._clickingCount = 0;
-                        stun = true;
-                        stunTimer = 2f;
-                        Debug.Log("stun");
-                        if (stunInstance.isValid())
+                        if (player2input != KeyCode.LeftArrow)
                         {
-                            stunInstance.start();
+                            keycheck(player2input);
+                            player2input = KeyCode.LeftArrow;
+                        }
+                        if (customer1._playerState == 0 || customer1._playerState == 1)
+                        {
+                            customer1._playerState = 2;
+                            customer1._clickingCount += 1;
+                        }
+                        if (customer1._state == 1)
+                        {
+                            //playsound_up2order
+                            if (jOrderInstance.isValid())
+                            {
+                                FMOD.Studio.PLAYBACK_STATE playbackState;
+                                jOrderInstance.getPlaybackState(out playbackState);
+                                if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                {
+                                    jOrderInstance.start();
+                                }
+                            }
+                        }
+                        if (customer1._state == 2)
+                        {
+                            //playsound_up2plate
+                            if (jPlateInstance.isValid())
+                            {
+                                FMOD.Studio.PLAYBACK_STATE playbackState;
+                                jPlateInstance.getPlaybackState(out playbackState);
+                                if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                {
+                                    jPlateInstance.start();
+                                }
+                            }
+                        }
+                        if (customer1._state == 3)
+                        {
+                            //playsound_up2check
+                            if (jCheckInstance.isValid())
+                            {
+                                FMOD.Studio.PLAYBACK_STATE playbackState;
+                                jCheckInstance.getPlaybackState(out playbackState);
+                                if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                {
+                                    jCheckInstance.start();
+                                }
+                            }
                         }
                     }
 
-                    if (customer1._clickingCount >= 15)
+                    if (customer1._clickingCount >= 30)
                     {
                         customer1._playerState = 0;
                         customer1._clickingCount = 0;
                         customer1._state += 1;
                         customer1._resetService();
                         getLDone(2);
-                    }
-
-                    if (customer1._state == 4)
-                    {
-                        Destroy(customer1);
-                        table2 = null;
-                        leaveInstance.setParameterByID(leaveTableNumber, 2f);
-                        if (leaveInstance.isValid())
-                        {
-                            leaveInstance.start();
-                        }
-                    }
-
-                }
-
-                if (Input.GetKeyDown(KeyCode.LeftArrow))
-                {
-
-                    var customer1 = table2.GetComponent<Customer>();
-                    if (player2input != KeyCode.LeftArrow)
-                    {
-                        keycheck(player2input);
-                        player2input = KeyCode.LeftArrow;
-                    }
-                    //change player state based on player 1's interaction
-                    if (customer1._playerState == 0)
-                    {
-                        customer1._playerState = 2;
-                        customer1._clickingCount += 1;
-                    }
-                    else if (customer1._playerState == 2)
-                    {
-                        customer1._clickingCount += 1; 
-                        if (customer1._state == 1)
-                        {
-                            //playsound_up2order
-                            if (jOrderInstance.isValid())
-                            {
-                                FMOD.Studio.PLAYBACK_STATE playbackState;
-                                jOrderInstance.getPlaybackState(out playbackState);
-                                if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                                {
-                                    jOrderInstance.start();
-                                }
-                            }
-                        }
-                        if (customer1._state == 2)
-                        {
-                            //playsound_up2plate
-                            if (jPlateInstance.isValid())
-                            {
-                                FMOD.Studio.PLAYBACK_STATE playbackState;
-                                jPlateInstance.getPlaybackState(out playbackState);
-                                if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                                {
-                                    jPlateInstance.start();
-                                }
-                            }
-                        }
-                        if (customer1._state == 3)
-                        {
-                            //playsound_up2check
-                            if (jCheckInstance.isValid())
-                            {
-                                FMOD.Studio.PLAYBACK_STATE playbackState;
-                                jCheckInstance.getPlaybackState(out playbackState);
-                                if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                                {
-                                    jCheckInstance.start();
-                                }
-                            }
-                        }
-                    }
-                    else if (customer1._playerState == 1)
-                    {
-                        customer1._playerState = 0;
-                        customer1._clickingCount = 0;
-                        stun = true;
-                        stunTimer = 2f;
-                        Debug.Log("stun");
-                        if (stunInstance.isValid())
-                        {
-                            stunInstance.start();
-                        }
-                    }
-
-                    if (customer1._clickingCount >= 15)
-                    {
-                        customer1._playerState = 0;
-                        customer1._clickingCount = 0;
-                        customer1._state += 1;
-                        customer1._resetService();
                         getJDone(2);
                     }
+
                     if (customer1._state == 4)
                     {
                         Destroy(customer1);
                         table2 = null;
-                        leaveInstance.setParameterByID(leaveTableNumber, 2f);
-                        if (leaveInstance.isValid())
+                        //playsound_upVIP_leave
+                        if (vipLeaveInstance.isValid())
                         {
-                            leaveInstance.start();
+                            vipLeaveInstance.start();
                         }
                     }
 
+                }
+
+                else if (table2.GetComponent<Customer>()._isVIP == false)
+                {
+                    if (Input.GetKeyDown(KeyCode.A))
+                    {
+                        var customer1 = table2.GetComponent<Customer>();
+                        if (player1input != KeyCode.A)
+                        {
+                            keycheck(player1input);
+                            player1input = KeyCode.A;
+                        }
+
+                        //change player state based on player 1's interaction
+                        if (customer1._playerState == 0)
+                        {
+                            customer1._playerState = 1;
+                            customer1._clickingCount += 1;
+                        }
+                        else if (customer1._playerState == 1)
+                        {
+                            customer1._clickingCount += 1; if (customer1._state == 1)
+                            {
+                                //playsound_up1order
+                                if (lOrderInstance.isValid())
+                                {
+                                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                                    lOrderInstance.getPlaybackState(out playbackState);
+                                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                    {
+                                        lOrderInstance.start();
+                                    }
+                                }
+                            }
+                            if (customer1._state == 2)
+                            {
+                                //playsound_up1plate
+                                if (lPlateInstance.isValid())
+                                {
+                                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                                    lPlateInstance.getPlaybackState(out playbackState);
+                                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                    {
+                                        lPlateInstance.start();
+                                    }
+                                }
+                            }
+                            if (customer1._state == 3)
+                            {
+                                //playsound_up1check
+                                if (lCheckInstance.isValid())
+                                {
+                                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                                    lCheckInstance.getPlaybackState(out playbackState);
+                                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                    {
+                                        lCheckInstance.start();
+                                    }
+                                }
+                            }
+                        }
+                        else if (customer1._playerState == 2)
+                        {
+                            customer1._playerState = 0;
+                            customer1._clickingCount = 0;
+                            stun = true;
+                            stunTimer = 2f;
+                            Debug.Log("stun");
+                            if (stunInstance.isValid())
+                            {
+                                stunInstance.start();
+                            }
+                        }
+
+                        if (customer1._clickingCount >= 15)
+                        {
+                            customer1._playerState = 0;
+                            customer1._clickingCount = 0;
+                            customer1._state += 1;
+                            customer1._resetService();
+                            getLDone(2);
+                        }
+
+                        if (customer1._state == 4)
+                        {
+                            Destroy(customer1);
+                            table2 = null;
+                            leaveInstance.setParameterByID(leaveTableNumber, 2f);
+                            if (leaveInstance.isValid())
+                            {
+                                leaveInstance.start();
+                            }
+                        }
+
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.LeftArrow))
+                    {
+
+                        var customer1 = table2.GetComponent<Customer>();
+                        if (player2input != KeyCode.LeftArrow)
+                        {
+                            keycheck(player2input);
+                            player2input = KeyCode.LeftArrow;
+                        }
+                        //change player state based on player 1's interaction
+                        if (customer1._playerState == 0)
+                        {
+                            customer1._playerState = 2;
+                            customer1._clickingCount += 1;
+                        }
+                        else if (customer1._playerState == 2)
+                        {
+                            customer1._clickingCount += 1;
+                            if (customer1._state == 1)
+                            {
+                                //playsound_up2order
+                                if (jOrderInstance.isValid())
+                                {
+                                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                                    jOrderInstance.getPlaybackState(out playbackState);
+                                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                    {
+                                        jOrderInstance.start();
+                                    }
+                                }
+                            }
+                            if (customer1._state == 2)
+                            {
+                                //playsound_up2plate
+                                if (jPlateInstance.isValid())
+                                {
+                                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                                    jPlateInstance.getPlaybackState(out playbackState);
+                                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                    {
+                                        jPlateInstance.start();
+                                    }
+                                }
+                            }
+                            if (customer1._state == 3)
+                            {
+                                //playsound_up2check
+                                if (jCheckInstance.isValid())
+                                {
+                                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                                    jCheckInstance.getPlaybackState(out playbackState);
+                                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                    {
+                                        jCheckInstance.start();
+                                    }
+                                }
+                            }
+                        }
+                        else if (customer1._playerState == 1)
+                        {
+                            customer1._playerState = 0;
+                            customer1._clickingCount = 0;
+                            stun = true;
+                            stunTimer = 2f;
+                            Debug.Log("stun");
+                            if (stunInstance.isValid())
+                            {
+                                stunInstance.start();
+                            }
+                        }
+
+                        if (customer1._clickingCount >= 15)
+                        {
+                            customer1._playerState = 0;
+                            customer1._clickingCount = 0;
+                            customer1._state += 1;
+                            customer1._resetService();
+                            getJDone(2);
+                        }
+                        if (customer1._state == 4)
+                        {
+                            Destroy(customer1);
+                            table2 = null;
+                            leaveInstance.setParameterByID(leaveTableNumber, 2f);
+                            if (leaveInstance.isValid())
+                            {
+                                leaveInstance.start();
+                            }
+                        }
+
+                    }
                 }
             }
-        }
 
-        if (table3 != null && table3.GetComponent<Customer>()._serviceRequired == true && stun == false)
-        {
-
-            if (table3.GetComponent<Customer>()._isVIP == true)
-            {
-                var customer1 = table3.GetComponent<Customer>();
-
-                if (Input.GetKeyDown(KeyCode.S))
-                {
-                    if (player1input != KeyCode.S)
-                    {
-                        keycheck(player1input);
-                        player1input = KeyCode.S;
-                    }
-                    if (customer1._playerState == 0 || customer1._playerState == 2)
-                    {
-                        customer1._playerState = 1;
-                        customer1._clickingCount += 1;
-                    }
-                    if (customer1._state == 1)
-                    {
-                        //playsound_up1order
-                        if (lOrderInstance.isValid())
-                        {
-                            FMOD.Studio.PLAYBACK_STATE playbackState;
-                            lOrderInstance.getPlaybackState(out playbackState);
-                            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                            {
-                                lOrderInstance.start();
-                            }
-                        }
-                    }
-                    if (customer1._state == 2)
-                    {
-                        //playsound_up1plate
-                        if (lPlateInstance.isValid())
-                        {
-                            FMOD.Studio.PLAYBACK_STATE playbackState;
-                            lPlateInstance.getPlaybackState(out playbackState);
-                            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                            {
-                                lPlateInstance.start();
-                            }
-                        }
-                    }
-                    if (customer1._state == 3)
-                    {
-                        //playsound_up1check
-                        if (lCheckInstance.isValid())
-                        {
-                            FMOD.Studio.PLAYBACK_STATE playbackState;
-                            lCheckInstance.getPlaybackState(out playbackState);
-                            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                            {
-                                lCheckInstance.start();
-                            }
-                        }
-                    }
-                }
-                else if (Input.GetKeyDown(KeyCode.DownArrow))
-                {
-                    if (player2input != KeyCode.DownArrow)
-                    {
-                        keycheck(player2input);
-                        player2input = KeyCode.DownArrow;
-                    }
-                    if (customer1._playerState == 0 || customer1._playerState == 1)
-                    {
-                        customer1._playerState = 2;
-                        customer1._clickingCount += 1;
-                    }
-                    if (customer1._state == 1)
-                    {
-                        //playsound_up2order
-                        if (jOrderInstance.isValid())
-                        {
-                            FMOD.Studio.PLAYBACK_STATE playbackState;
-                            jOrderInstance.getPlaybackState(out playbackState);
-                            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                            {
-                                jOrderInstance.start();
-                            }
-                        }
-                    }
-                    if (customer1._state == 2)
-                    {
-                        //playsound_up2plate
-                        if (jPlateInstance.isValid())
-                        {
-                            FMOD.Studio.PLAYBACK_STATE playbackState;
-                            jPlateInstance.getPlaybackState(out playbackState);
-                            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                            {
-                                jPlateInstance.start();
-                            }
-                        }
-                    }
-                    if (customer1._state == 3)
-                    {
-                        //playsound_up2check
-                        if (jCheckInstance.isValid())
-                        {
-                            FMOD.Studio.PLAYBACK_STATE playbackState;
-                            jCheckInstance.getPlaybackState(out playbackState);
-                            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                            {
-                                jCheckInstance.start();
-                            }
-                        }
-                    }
-                }
-
-                if (customer1._clickingCount >= 30)
-                {
-                    customer1._playerState = 0;
-                    customer1._clickingCount = 0;
-                    customer1._state += 1;
-                    customer1._resetService();
-                    getLDone(4);
-                    getJDone(4);
-                }
-
-                if (customer1._state == 4)
-                {
-                    Destroy(customer1);
-                    table3 = null;
-                    //playsound_upVIP_leave
-                    if (vipLeaveInstance.isValid())
-                    {
-                        vipLeaveInstance.start();
-                    }
-                }
-
-            }
-
-            else if (table3.GetComponent<Customer>()._isVIP == false)
+            if (table3 != null && table3.GetComponent<Customer>()._serviceRequired == true && stun == false)
             {
 
-                if (Input.GetKeyDown(KeyCode.S))
-            {
-                var customer1 = table3.GetComponent<Customer>();
+                if (table3.GetComponent<Customer>()._isVIP == true)
+                {
+                    var customer1 = table3.GetComponent<Customer>();
 
-                if (player1input != KeyCode.S)
-                {
-                    keycheck(player1input);
-                    player1input = KeyCode.S;
-                }
-                
-
-                //change player state based on player 1's interaction
-                if (customer1._playerState == 0)
-                {
-                    customer1._playerState = 1;
-                    customer1._clickingCount += 1;
-                }
-                else if (customer1._playerState == 1)
-                {
-                    customer1._clickingCount += 1; 
+                    if (Input.GetKeyDown(KeyCode.S))
+                    {
+                        if (player1input != KeyCode.S)
+                        {
+                            keycheck(player1input);
+                            player1input = KeyCode.S;
+                        }
+                        if (customer1._playerState == 0 || customer1._playerState == 2)
+                        {
+                            customer1._playerState = 1;
+                            customer1._clickingCount += 1;
+                        }
                         if (customer1._state == 1)
                         {
                             //playsound_up1order
@@ -1259,58 +1391,18 @@ public class GameManager : MonoBehaviour
                             }
                         }
                     }
-                else if (customer1._playerState == 2)
-                {
-                    customer1._playerState = 0;
-                    customer1._clickingCount = 0;
-                    stun = true;
-                    stunTimer = 2f;
-                    Debug.Log("stun");
-                    if (stunInstance.isValid())
+                    else if (Input.GetKeyDown(KeyCode.DownArrow))
                     {
-                        stunInstance.start();
-                    }
-                }
-
-                if (customer1._clickingCount >= 15)
-                {
-                    customer1._playerState = 0;
-                    customer1._clickingCount = 0;
-                    customer1._state += 1;
-                    customer1._resetService();
-                        getLDone(4);
-                }
-
-                if (customer1._state == 4)
-                {
-                    Destroy(customer1);
-                    table3 = null;
-                    leaveInstance.setParameterByID(leaveTableNumber, 4f);
-                    if (leaveInstance.isValid())
-                    {
-                        leaveInstance.start();
-                    }
-                }
-            }
-
-                if (Input.GetKeyDown(KeyCode.DownArrow))
-                {
-
-                    var customer1 = table3.GetComponent<Customer>();
-                    if (player2input != KeyCode.DownArrow)
-                    {
-                        keycheck(player2input);
-                        player2input = KeyCode.DownArrow;
-                    }
-                    //change player state based on player 1's interaction
-                    if (customer1._playerState == 0)
-                    {
-                        customer1._playerState = 2;
-                        customer1._clickingCount += 1;
-                    }
-                    else if (customer1._playerState == 2)
-                    {
-                        customer1._clickingCount += 1;
+                        if (player2input != KeyCode.DownArrow)
+                        {
+                            keycheck(player2input);
+                            player2input = KeyCode.DownArrow;
+                        }
+                        if (customer1._playerState == 0 || customer1._playerState == 1)
+                        {
+                            customer1._playerState = 2;
+                            customer1._clickingCount += 1;
+                        }
                         if (customer1._state == 1)
                         {
                             //playsound_up2order
@@ -1351,196 +1443,241 @@ public class GameManager : MonoBehaviour
                             }
                         }
                     }
-                    else if (customer1._playerState == 1)
-                    {
-                        customer1._playerState = 0;
-                        customer1._clickingCount = 0;
-                        stun = true;
-                        stunTimer = 2f;
-                        Debug.Log("stun");
-                        if (stunInstance.isValid())
-                        {
-                            stunInstance.start();
-                        }
-                    }
 
-                    if (customer1._clickingCount >= 15)
+                    if (customer1._clickingCount >= 30)
                     {
                         customer1._playerState = 0;
                         customer1._clickingCount = 0;
                         customer1._state += 1;
                         customer1._resetService();
+                        getLDone(4);
                         getJDone(4);
                     }
+
                     if (customer1._state == 4)
                     {
                         Destroy(customer1);
                         table3 = null;
-                        leaveInstance.setParameterByID(leaveTableNumber, 4f);
-                        if (leaveInstance.isValid())
+                        //playsound_upVIP_leave
+                        if (vipLeaveInstance.isValid())
                         {
-                            leaveInstance.start();
+                            vipLeaveInstance.start();
+                        }
+                    }
+
+                }
+
+                else if (table3.GetComponent<Customer>()._isVIP == false)
+                {
+
+                    if (Input.GetKeyDown(KeyCode.S))
+                    {
+                        var customer1 = table3.GetComponent<Customer>();
+
+                        if (player1input != KeyCode.S)
+                        {
+                            keycheck(player1input);
+                            player1input = KeyCode.S;
+                        }
+
+
+                        //change player state based on player 1's interaction
+                        if (customer1._playerState == 0)
+                        {
+                            customer1._playerState = 1;
+                            customer1._clickingCount += 1;
+                        }
+                        else if (customer1._playerState == 1)
+                        {
+                            customer1._clickingCount += 1;
+                            if (customer1._state == 1)
+                            {
+                                //playsound_up1order
+                                if (lOrderInstance.isValid())
+                                {
+                                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                                    lOrderInstance.getPlaybackState(out playbackState);
+                                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                    {
+                                        lOrderInstance.start();
+                                    }
+                                }
+                            }
+                            if (customer1._state == 2)
+                            {
+                                //playsound_up1plate
+                                if (lPlateInstance.isValid())
+                                {
+                                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                                    lPlateInstance.getPlaybackState(out playbackState);
+                                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                    {
+                                        lPlateInstance.start();
+                                    }
+                                }
+                            }
+                            if (customer1._state == 3)
+                            {
+                                //playsound_up1check
+                                if (lCheckInstance.isValid())
+                                {
+                                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                                    lCheckInstance.getPlaybackState(out playbackState);
+                                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                    {
+                                        lCheckInstance.start();
+                                    }
+                                }
+                            }
+                        }
+                        else if (customer1._playerState == 2)
+                        {
+                            customer1._playerState = 0;
+                            customer1._clickingCount = 0;
+                            stun = true;
+                            stunTimer = 2f;
+                            Debug.Log("stun");
+                            if (stunInstance.isValid())
+                            {
+                                stunInstance.start();
+                            }
+                        }
+
+                        if (customer1._clickingCount >= 15)
+                        {
+                            customer1._playerState = 0;
+                            customer1._clickingCount = 0;
+                            customer1._state += 1;
+                            customer1._resetService();
+                            getLDone(4);
+                        }
+
+                        if (customer1._state == 4)
+                        {
+                            Destroy(customer1);
+                            table3 = null;
+                            leaveInstance.setParameterByID(leaveTableNumber, 4f);
+                            if (leaveInstance.isValid())
+                            {
+                                leaveInstance.start();
+                            }
+                        }
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.DownArrow))
+                    {
+
+                        var customer1 = table3.GetComponent<Customer>();
+                        if (player2input != KeyCode.DownArrow)
+                        {
+                            keycheck(player2input);
+                            player2input = KeyCode.DownArrow;
+                        }
+                        //change player state based on player 1's interaction
+                        if (customer1._playerState == 0)
+                        {
+                            customer1._playerState = 2;
+                            customer1._clickingCount += 1;
+                        }
+                        else if (customer1._playerState == 2)
+                        {
+                            customer1._clickingCount += 1;
+                            if (customer1._state == 1)
+                            {
+                                //playsound_up2order
+                                if (jOrderInstance.isValid())
+                                {
+                                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                                    jOrderInstance.getPlaybackState(out playbackState);
+                                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                    {
+                                        jOrderInstance.start();
+                                    }
+                                }
+                            }
+                            if (customer1._state == 2)
+                            {
+                                //playsound_up2plate
+                                if (jPlateInstance.isValid())
+                                {
+                                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                                    jPlateInstance.getPlaybackState(out playbackState);
+                                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                    {
+                                        jPlateInstance.start();
+                                    }
+                                }
+                            }
+                            if (customer1._state == 3)
+                            {
+                                //playsound_up2check
+                                if (jCheckInstance.isValid())
+                                {
+                                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                                    jCheckInstance.getPlaybackState(out playbackState);
+                                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                    {
+                                        jCheckInstance.start();
+                                    }
+                                }
+                            }
+                        }
+                        else if (customer1._playerState == 1)
+                        {
+                            customer1._playerState = 0;
+                            customer1._clickingCount = 0;
+                            stun = true;
+                            stunTimer = 2f;
+                            Debug.Log("stun");
+                            if (stunInstance.isValid())
+                            {
+                                stunInstance.start();
+                            }
+                        }
+
+                        if (customer1._clickingCount >= 15)
+                        {
+                            customer1._playerState = 0;
+                            customer1._clickingCount = 0;
+                            customer1._state += 1;
+                            customer1._resetService();
+                            getJDone(4);
+                        }
+                        if (customer1._state == 4)
+                        {
+                            Destroy(customer1);
+                            table3 = null;
+                            leaveInstance.setParameterByID(leaveTableNumber, 4f);
+                            if (leaveInstance.isValid())
+                            {
+                                leaveInstance.start();
+                            }
                         }
                     }
                 }
             }
-        }
 
-        if (table4 != null && table4.GetComponent<Customer>()._serviceRequired == true && stun == false)
-        {
-            if (table4.GetComponent<Customer>()._isVIP == true)
+            if (table4 != null && table4.GetComponent<Customer>()._serviceRequired == true && stun == false)
             {
-                var customer1 = table4.GetComponent<Customer>();
-
-                if (Input.GetKeyDown(KeyCode.D))
-                {
-                    if (player1input != KeyCode.D)
-                    {
-                        keycheck(player1input);
-                        player1input = KeyCode.D;
-                    }
-                    if (customer1._playerState == 0 || customer1._playerState == 2)
-                    {
-                        customer1._playerState = 1;
-                        customer1._clickingCount += 1;
-                    }
-                    if (customer1._state == 1)
-                    {
-                        //playsound_up1order
-                        if (lOrderInstance.isValid())
-                        {
-                            FMOD.Studio.PLAYBACK_STATE playbackState;
-                            lOrderInstance.getPlaybackState(out playbackState);
-                            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                            {
-                                lOrderInstance.start();
-                            }
-                        }
-                    }
-                    if (customer1._state == 2)
-                    {
-                        //playsound_up1plate
-                        if (lPlateInstance.isValid())
-                        {
-                            FMOD.Studio.PLAYBACK_STATE playbackState;
-                            lPlateInstance.getPlaybackState(out playbackState);
-                            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                            {
-                                lPlateInstance.start();
-                            }
-                        }
-                    }
-                    if (customer1._state == 3)
-                    {
-                        //playsound_up1check
-                        if (lCheckInstance.isValid())
-                        {
-                            FMOD.Studio.PLAYBACK_STATE playbackState;
-                            lCheckInstance.getPlaybackState(out playbackState);
-                            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                            {
-                                lCheckInstance.start();
-                            }
-                        }
-                    }
-                }
-                else if (Input.GetKeyDown(KeyCode.RightArrow))
-                {
-                    if (player2input != KeyCode.RightArrow)
-                    {
-                        keycheck(player2input);
-                        player2input = KeyCode.RightArrow;
-                    }
-                    if (customer1._playerState == 0 || customer1._playerState == 1)
-                    {
-                        customer1._playerState = 2;
-                        customer1._clickingCount += 1;
-                    }
-                    if (customer1._state == 1)
-                    {
-                        if (jOrderInstance.isValid())
-                        {
-                            FMOD.Studio.PLAYBACK_STATE playbackState;
-                            jOrderInstance.getPlaybackState(out playbackState);
-                            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                            {
-                                jOrderInstance.start();
-                            }
-                        }
-                    }
-                    if (customer1._state == 2)
-                    {
-                        //playsound_up2plate
-                        if (jPlateInstance.isValid())
-                        {
-                            FMOD.Studio.PLAYBACK_STATE playbackState;
-                            jPlateInstance.getPlaybackState(out playbackState);
-                            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                            {
-                                jPlateInstance.start();
-                            }
-                        }
-                    }
-                    if (customer1._state == 3)
-                    {
-                        //playsound_up2check
-                        if (jCheckInstance.isValid())
-                        {
-                            FMOD.Studio.PLAYBACK_STATE playbackState;
-                            jCheckInstance.getPlaybackState(out playbackState);
-                            if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                            {
-                                jCheckInstance.start();
-                            }
-                        }
-                    }
-                }
-
-                if (customer1._clickingCount >= 30)
-                {
-                    customer1._playerState = 0;
-                    customer1._clickingCount = 0;
-                    customer1._state += 1;
-                    customer1._resetService();
-                    getJDone(3);
-                    getLDone(3);
-                }
-
-                if (customer1._state == 4)
-                {
-                    Destroy(customer1);
-                    table4 = null;
-                    if (vipLeaveInstance.isValid())
-                    {
-                        vipLeaveInstance.start();
-                    }
-                }
-
-            }
-
-
-            else if (table4.GetComponent<Customer>()._isVIP == false)
-            {
-                if (Input.GetKeyDown(KeyCode.D))
+                if (table4.GetComponent<Customer>()._isVIP == true)
                 {
                     var customer1 = table4.GetComponent<Customer>();
-                    if (player1input != KeyCode.D)
-                    {
-                        keycheck(player1input);
-                        player1input = KeyCode.D;
-                    }
 
-                    //change player state based on player 1's interaction
-                    if (customer1._playerState == 0)
+                    if (Input.GetKeyDown(KeyCode.D))
                     {
-                        customer1._playerState = 1;
-                        customer1._clickingCount += 1;
-                    }
-                    else if (customer1._playerState == 1)
-                    {
-                        customer1._clickingCount += 1; 
+                        if (player1input != KeyCode.D)
+                        {
+                            keycheck(player1input);
+                            player1input = KeyCode.D;
+                        }
+                        if (customer1._playerState == 0 || customer1._playerState == 2)
+                        {
+                            customer1._playerState = 1;
+                            customer1._clickingCount += 1;
+                        }
                         if (customer1._state == 1)
                         {
+                            //playsound_up1order
                             if (lOrderInstance.isValid())
                             {
                                 FMOD.Studio.PLAYBACK_STATE playbackState;
@@ -1578,25 +1715,65 @@ public class GameManager : MonoBehaviour
                             }
                         }
                     }
-                    else if (customer1._playerState == 2)
+                    else if (Input.GetKeyDown(KeyCode.RightArrow))
                     {
-                        customer1._playerState = 0;
-                        customer1._clickingCount = 0;
-                        stun = true;
-                        stunTimer = 2f;
-                        Debug.Log("stun");
-                        if (stunInstance.isValid())
+                        if (player2input != KeyCode.RightArrow)
                         {
-                            stunInstance.start();
+                            keycheck(player2input);
+                            player2input = KeyCode.RightArrow;
+                        }
+                        if (customer1._playerState == 0 || customer1._playerState == 1)
+                        {
+                            customer1._playerState = 2;
+                            customer1._clickingCount += 1;
+                        }
+                        if (customer1._state == 1)
+                        {
+                            if (jOrderInstance.isValid())
+                            {
+                                FMOD.Studio.PLAYBACK_STATE playbackState;
+                                jOrderInstance.getPlaybackState(out playbackState);
+                                if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                {
+                                    jOrderInstance.start();
+                                }
+                            }
+                        }
+                        if (customer1._state == 2)
+                        {
+                            //playsound_up2plate
+                            if (jPlateInstance.isValid())
+                            {
+                                FMOD.Studio.PLAYBACK_STATE playbackState;
+                                jPlateInstance.getPlaybackState(out playbackState);
+                                if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                {
+                                    jPlateInstance.start();
+                                }
+                            }
+                        }
+                        if (customer1._state == 3)
+                        {
+                            //playsound_up2check
+                            if (jCheckInstance.isValid())
+                            {
+                                FMOD.Studio.PLAYBACK_STATE playbackState;
+                                jCheckInstance.getPlaybackState(out playbackState);
+                                if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                {
+                                    jCheckInstance.start();
+                                }
+                            }
                         }
                     }
 
-                    if (customer1._clickingCount >= 15)
+                    if (customer1._clickingCount >= 30)
                     {
                         customer1._playerState = 0;
                         customer1._clickingCount = 0;
                         customer1._state += 1;
                         customer1._resetService();
+                        getJDone(3);
                         getLDone(3);
                     }
 
@@ -1604,116 +1781,246 @@ public class GameManager : MonoBehaviour
                     {
                         Destroy(customer1);
                         table4 = null;
-                        leaveInstance.setParameterByID(leaveTableNumber, 3f);
-                        if (leaveInstance.isValid())
+                        if (vipLeaveInstance.isValid())
                         {
-                            leaveInstance.start();
+                            vipLeaveInstance.start();
                         }
                     }
 
                 }
 
-                if (Input.GetKeyDown(KeyCode.RightArrow))
+
+                else if (table4.GetComponent<Customer>()._isVIP == false)
                 {
-
-                    var customer1 = table4.GetComponent<Customer>();
-                    if (player2input != KeyCode.RightArrow)
+                    if (Input.GetKeyDown(KeyCode.D))
                     {
-                        keycheck(player2input);
-                        player2input = KeyCode.RightArrow;
-                    }
-
-                    //change player state based on player 1's interaction
-                    if (customer1._playerState == 0)
-                    {
-                        customer1._playerState = 2;
-                        customer1._clickingCount += 1;
-                    }
-                    else if (customer1._playerState == 2)
-                    {
-                        customer1._clickingCount += 1; 
-                        if (customer1._state == 1)
+                        var customer1 = table4.GetComponent<Customer>();
+                        if (player1input != KeyCode.D)
                         {
-                            if (jOrderInstance.isValid())
+                            keycheck(player1input);
+                            player1input = KeyCode.D;
+                        }
+
+                        //change player state based on player 1's interaction
+                        if (customer1._playerState == 0)
+                        {
+                            customer1._playerState = 1;
+                            customer1._clickingCount += 1;
+                        }
+                        else if (customer1._playerState == 1)
+                        {
+                            customer1._clickingCount += 1;
+                            if (customer1._state == 1)
                             {
-                                FMOD.Studio.PLAYBACK_STATE playbackState;
-                                jOrderInstance.getPlaybackState(out playbackState);
-                                if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                if (lOrderInstance.isValid())
                                 {
-                                    jOrderInstance.start();
+                                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                                    lOrderInstance.getPlaybackState(out playbackState);
+                                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                    {
+                                        lOrderInstance.start();
+                                    }
+                                }
+                            }
+                            if (customer1._state == 2)
+                            {
+                                //playsound_up1plate
+                                if (lPlateInstance.isValid())
+                                {
+                                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                                    lPlateInstance.getPlaybackState(out playbackState);
+                                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                    {
+                                        lPlateInstance.start();
+                                    }
+                                }
+                            }
+                            if (customer1._state == 3)
+                            {
+                                //playsound_up1check
+                                if (lCheckInstance.isValid())
+                                {
+                                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                                    lCheckInstance.getPlaybackState(out playbackState);
+                                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                    {
+                                        lCheckInstance.start();
+                                    }
                                 }
                             }
                         }
-                        if (customer1._state == 2)
+                        else if (customer1._playerState == 2)
                         {
-                            //playsound_up2plate
-                            if (jPlateInstance.isValid())
+                            customer1._playerState = 0;
+                            customer1._clickingCount = 0;
+                            stun = true;
+                            stunTimer = 2f;
+                            Debug.Log("stun");
+                            if (stunInstance.isValid())
                             {
-                                FMOD.Studio.PLAYBACK_STATE playbackState;
-                                jPlateInstance.getPlaybackState(out playbackState);
-                                if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                stunInstance.start();
+                            }
+                        }
+
+                        if (customer1._clickingCount >= 15)
+                        {
+                            customer1._playerState = 0;
+                            customer1._clickingCount = 0;
+                            customer1._state += 1;
+                            customer1._resetService();
+                            getLDone(3);
+                        }
+
+                        if (customer1._state == 4)
+                        {
+                            Destroy(customer1);
+                            table4 = null;
+                            leaveInstance.setParameterByID(leaveTableNumber, 3f);
+                            if (leaveInstance.isValid())
+                            {
+                                leaveInstance.start();
+                            }
+                        }
+
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.RightArrow))
+                    {
+
+                        var customer1 = table4.GetComponent<Customer>();
+                        if (player2input != KeyCode.RightArrow)
+                        {
+                            keycheck(player2input);
+                            player2input = KeyCode.RightArrow;
+                        }
+
+                        //change player state based on player 1's interaction
+                        if (customer1._playerState == 0)
+                        {
+                            customer1._playerState = 2;
+                            customer1._clickingCount += 1;
+                        }
+                        else if (customer1._playerState == 2)
+                        {
+                            customer1._clickingCount += 1;
+                            if (customer1._state == 1)
+                            {
+                                if (jOrderInstance.isValid())
                                 {
-                                    jPlateInstance.start();
+                                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                                    jOrderInstance.getPlaybackState(out playbackState);
+                                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                    {
+                                        jOrderInstance.start();
+                                    }
+                                }
+                            }
+                            if (customer1._state == 2)
+                            {
+                                //playsound_up2plate
+                                if (jPlateInstance.isValid())
+                                {
+                                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                                    jPlateInstance.getPlaybackState(out playbackState);
+                                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                    {
+                                        jPlateInstance.start();
+                                    }
+                                }
+                            }
+                            if (customer1._state == 3)
+                            {
+                                //playsound_up2check
+                                if (jCheckInstance.isValid())
+                                {
+                                    FMOD.Studio.PLAYBACK_STATE playbackState;
+                                    jCheckInstance.getPlaybackState(out playbackState);
+                                    if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
+                                    {
+                                        jCheckInstance.start();
+                                    }
                                 }
                             }
                         }
-                        if (customer1._state == 3)
+                        else if (customer1._playerState == 1)
                         {
-                            //playsound_up2check
-                            if (jCheckInstance.isValid())
+                            customer1._playerState = 0;
+                            customer1._clickingCount = 0;
+                            stun = true;
+                            stunTimer = 2f;
+                            Debug.Log("stun");
+                            if (stunInstance.isValid())
                             {
-                                FMOD.Studio.PLAYBACK_STATE playbackState;
-                                jCheckInstance.getPlaybackState(out playbackState);
-                                if (playbackState == FMOD.Studio.PLAYBACK_STATE.STOPPED)
-                                {
-                                    jCheckInstance.start();
-                                }
+                                stunInstance.start();
                             }
                         }
-                    }
-                    else if (customer1._playerState == 1)
-                    {
-                        customer1._playerState = 0;
-                        customer1._clickingCount = 0;
-                        stun = true;
-                        stunTimer = 2f;
-                        Debug.Log("stun");
-                        if (stunInstance.isValid())
-                        {
-                            stunInstance.start();
-                        }
-                    }
 
-                    if (customer1._clickingCount >= 15)
-                    {
-                        customer1._playerState = 0;
-                        customer1._clickingCount = 0;
-                        customer1._state += 1;
-                        customer1._resetService();
-                        getJDone(3);
-                    }
-                    if (customer1._state == 4)
-                    {
-                        Destroy(customer1);
-                        table4 = null;
-                        leaveInstance.setParameterByID(leaveTableNumber, 3f);
-                        if (leaveInstance.isValid())
+                        if (customer1._clickingCount >= 15)
                         {
-                            leaveInstance.start();
+                            customer1._playerState = 0;
+                            customer1._clickingCount = 0;
+                            customer1._state += 1;
+                            customer1._resetService();
+                            getJDone(3);
                         }
-                    }
+                        if (customer1._state == 4)
+                        {
+                            Destroy(customer1);
+                            table4 = null;
+                            leaveInstance.setParameterByID(leaveTableNumber, 3f);
+                            if (leaveInstance.isValid())
+                            {
+                                leaveInstance.start();
+                            }
+                        }
 
-                } }
+                    }
+                }
+            }
+
+            //Cleanup
+            if (endgame == true && ended == false)
+            {
+                ended = true;
+                if (timer <= 120)
+                {
+                    //f
+                    getEnd(6);
+                }
+                else if (timer <= 150)
+                {
+                    //d
+                    getEnd(5);
+                }
+                else if (timer <= 180)
+                {
+                    //c
+                    getEnd(4);
+                }
+                else if (timer <= 210)
+                {
+                    //b
+                    getEnd(3);
+                }
+                else if (timer <= 240)
+                {
+                    //a
+                    getEnd(2);
+                }
+                else if (timer <= 270)
+                {
+                    //s
+                    getEnd(1);
+                }
+            }
+            _customerSpawnTimer -= Time.deltaTime;
+            if (_customerSpawnTimer <= 0)
+            {
+                _addNewCustomer();
+                _customerSpawnTimer = UnityEngine.Random.Range(_customerSpawnMin, _customerSpawnMax);
+            }
+            _seatWaitingCustomer();
         }
-
-        //Cleanup
-        _customerSpawnTimer -= Time.deltaTime;
-        if (_customerSpawnTimer <= 0)
-        {
-            _addNewCustomer();
-            _customerSpawnTimer = UnityEngine.Random.Range(_customerSpawnMin, _customerSpawnMax);
-        }
-        _seatWaitingCustomer();
     }
 
     public void _addNewCustomer()
@@ -1722,6 +2029,7 @@ public class GameManager : MonoBehaviour
         if (isCustomerVIP <= _vipChance)
         {
             customer.GetComponent<Customer>()._isVIP = true;
+            Debug.Log("VIPInstantiate");
         }
         else
         {
@@ -1734,8 +2042,10 @@ public class GameManager : MonoBehaviour
             customer.GetComponent<Customer>()._tableNum = 1;
             table1 = customer;
             table1 =  Instantiate(customer, transform.position, Quaternion.identity);
-            if (customer.GetComponent<Customer>()._isVIP == true)
+            Debug.Log("VIPAssigned");
+            if (table1.GetComponent<Customer>()._isVIP == true)
             {
+                Debug.Log("VIPAssigned");
                 vipTableInstance.setParameterByID(vipAtTableNumber, 1f);
                 if (vipTableInstance.isValid())
                 {
@@ -1749,7 +2059,7 @@ public class GameManager : MonoBehaviour
             customer.GetComponent<Customer>()._tableNum = 2;
             table2 = customer;
             table2 = Instantiate(customer, transform.position, Quaternion.identity);
-            if (customer.GetComponent<Customer>()._isVIP == true)
+            if (table2.GetComponent<Customer>()._isVIP == true)
             {
                 vipTableInstance.setParameterByID(vipAtTableNumber, 2f);
                 if (vipTableInstance.isValid())
@@ -1764,7 +2074,7 @@ public class GameManager : MonoBehaviour
             customer.GetComponent<Customer>()._tableNum = 3;
             table3 = customer;
             table3 = Instantiate(customer, transform.position, Quaternion.identity);
-            if (customer.GetComponent<Customer>()._isVIP == true)
+            if (table3.GetComponent<Customer>()._isVIP == true)
             {
                 vipTableInstance.setParameterByID(vipAtTableNumber, 4f);
                 if (vipTableInstance.isValid())
@@ -1779,7 +2089,7 @@ public class GameManager : MonoBehaviour
             customer.GetComponent<Customer>()._tableNum = 4;
             table4 = customer;
             table4 = Instantiate(customer, transform.position, Quaternion.identity);
-            if (customer.GetComponent<Customer>()._isVIP == true)
+            if (table4.GetComponent<Customer>()._isVIP == true)
             {
                 vipTableInstance.setParameterByID(vipAtTableNumber, 3f);
                 if (vipTableInstance.isValid())
@@ -1814,11 +2124,11 @@ public class GameManager : MonoBehaviour
                 table1.GetComponent<Customer>()._serviceRequired = false;
                 if (table1.GetComponent<Customer>()._isVIP == true)
                 {
-                    //playsound_VIPupenter
-                }
-                else if (table1.GetComponent<Customer>()._isVIP == false)
-                {
-                    //playsound_VIPupenter
+                    vipTableInstance.setParameterByID(vipAtTableNumber, 1f);
+                    if (vipTableInstance.isValid())
+                    {
+                        vipTableInstance.start();
+                    }
                 }
             }
         }
@@ -1831,6 +2141,14 @@ public class GameManager : MonoBehaviour
                 table2.GetComponent<Customer>()._tableNum = 2;
                 table2.GetComponent<Customer>()._state = 1;
                 table2.GetComponent<Customer>()._serviceRequired = false;
+                if (table2.GetComponent<Customer>()._isVIP == true)
+                {
+                    vipTableInstance.setParameterByID(vipAtTableNumber, 2f);
+                    if (vipTableInstance.isValid())
+                    {
+                        vipTableInstance.start();
+                    }
+                }
             }
         }
         else if (table3 == null)
@@ -1842,6 +2160,14 @@ public class GameManager : MonoBehaviour
                 table3.GetComponent<Customer>()._tableNum = 3;
                 table3.GetComponent<Customer>()._state = 1;
                 table3.GetComponent<Customer>()._serviceRequired = false;
+                if (table3.GetComponent<Customer>()._isVIP == true)
+                {
+                    vipTableInstance.setParameterByID(vipAtTableNumber, 4f);
+                    if (vipTableInstance.isValid())
+                    {
+                        vipTableInstance.start();
+                    }
+                }
             }
         }
         else if (table4 == null)
@@ -1853,6 +2179,14 @@ public class GameManager : MonoBehaviour
                 table4.GetComponent<Customer>()._tableNum = 4;
                 table4.GetComponent<Customer>()._state = 1;
                 table4.GetComponent<Customer>()._serviceRequired = false;
+                if (table4.GetComponent<Customer>()._isVIP == true)
+                {
+                    vipTableInstance.setParameterByID(vipAtTableNumber, 3f);
+                    if (vipTableInstance.isValid())
+                    {
+                        vipTableInstance.start();
+                    }
+                }
             }
         }
     }
