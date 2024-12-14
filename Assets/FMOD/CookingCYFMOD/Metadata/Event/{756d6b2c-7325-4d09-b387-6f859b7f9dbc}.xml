@@ -122,9 +122,6 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{b4aa2575-b6b0-4d22-b2a7-d0d387b14c2a}">
-		<property name="volume">
-			<value>5</value>
-		</property>
 		<relationship name="effectChain">
 			<destination>{c8ecc4f0-0463-4c8d-8e7f-0977d906a162}</destination>
 		</relationship>
@@ -283,7 +280,7 @@
 	</object>
 	<object class="MixerBusPanner" id="{d33a0584-a1a9-43ad-a6f0-cbd9338dc6e3}">
 		<property name="stereoPan">
-			<value>-48</value>
+			<value>-84</value>
 		</property>
 	</object>
 	<object class="Automator" id="{a4fc5ac8-e10c-420d-af37-587c2b788e0d}">
@@ -301,7 +298,7 @@
 	</object>
 	<object class="MixerBusPanner" id="{a731500a-ff95-4d63-a02e-8f505f2925d3}">
 		<property name="stereoPan">
-			<value>-20</value>
+			<value>-32</value>
 		</property>
 	</object>
 	<object class="Automator" id="{b747226d-509b-437e-ac22-7877f65b1478}">
@@ -319,7 +316,7 @@
 	</object>
 	<object class="MixerBusPanner" id="{38e3c647-f292-4fd8-b940-3123b8e3bb09}">
 		<property name="stereoPan">
-			<value>18</value>
+			<value>32</value>
 		</property>
 	</object>
 	<object class="Automator" id="{8b643500-8170-466e-afcb-c5f65aad0ba3}">
@@ -337,7 +334,7 @@
 	</object>
 	<object class="MixerBusPanner" id="{ddd13e11-975b-4e04-93a9-86faa7b282b2}">
 		<property name="stereoPan">
-			<value>52</value>
+			<value>100</value>
 		</property>
 	</object>
 	<object class="MixerBusFader" id="{0db5e44e-9b02-40b8-b64c-3b5f00f3d861}" />
@@ -402,7 +399,7 @@
 			<value>2</value>
 		</property>
 		<property name="value">
-			<value>-80</value>
+			<value>-43.75</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{72a1c41a-61f7-45eb-aab9-a3ed16d71975}">
@@ -410,7 +407,7 @@
 			<value>4</value>
 		</property>
 		<property name="value">
-			<value>-80</value>
+			<value>-43.75</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{ebb059a3-61cf-4a90-b64e-7a5ea0a958df}">
@@ -418,7 +415,7 @@
 			<value>3</value>
 		</property>
 		<property name="value">
-			<value>-80</value>
+			<value>-43.75</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{9fe3947b-1e60-43a4-ba7c-c3b9789c749c}">
@@ -426,7 +423,7 @@
 			<value>2</value>
 		</property>
 		<property name="value">
-			<value>3.81469727e-06</value>
+			<value>0</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{fac2bd3e-ec41-40a7-876f-a5dd3dfd925e}">

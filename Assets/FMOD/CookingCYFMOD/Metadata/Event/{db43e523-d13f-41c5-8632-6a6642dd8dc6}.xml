@@ -122,9 +122,6 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{d2ea35f6-2b0a-46ec-b2a6-cd3f2c74ea0d}">
-		<property name="volume">
-			<value>5</value>
-		</property>
 		<relationship name="effectChain">
 			<destination>{e89d4281-3461-4854-81e6-7d5e308cba8a}</destination>
 		</relationship>
@@ -147,6 +144,9 @@
 		</relationship>
 	</object>
 	<object class="SingleSound" id="{2e0620d2-458f-4f21-b695-9699106c03dd}">
+		<property name="start">
+			<value>0.20000000000000001</value>
+		</property>
 		<property name="length">
 			<value>3.6971201814058956</value>
 		</property>
@@ -177,6 +177,9 @@
 		</relationship>
 	</object>
 	<object class="SingleSound" id="{edab4e28-79a1-4bab-ab1d-6e89e2478bf5}">
+		<property name="start">
+			<value>0.20000000000000001</value>
+		</property>
 		<property name="length">
 			<value>3.6971201814058956</value>
 		</property>
@@ -207,6 +210,9 @@
 		</relationship>
 	</object>
 	<object class="SingleSound" id="{4f03e1fd-dba1-4c24-bc2c-640e9d653c70}">
+		<property name="start">
+			<value>0.20000000000000001</value>
+		</property>
 		<property name="length">
 			<value>3.6971201814058956</value>
 		</property>
@@ -237,6 +243,9 @@
 		</relationship>
 	</object>
 	<object class="SingleSound" id="{44d060b6-b594-4c35-80f8-4f25a57370d6}">
+		<property name="start">
+			<value>0.20000000000000001</value>
+		</property>
 		<property name="length">
 			<value>3.6971201814058956</value>
 		</property>
@@ -283,7 +292,7 @@
 	</object>
 	<object class="MixerBusPanner" id="{c05454c2-8247-4c6c-ba16-5740376ee41b}">
 		<property name="stereoPan">
-			<value>-48</value>
+			<value>-84</value>
 		</property>
 	</object>
 	<object class="Automator" id="{fcffaa8c-9bd8-4003-86e2-343992211e27}">
@@ -301,7 +310,7 @@
 	</object>
 	<object class="MixerBusPanner" id="{e185d944-663f-4685-93de-2f2812980eca}">
 		<property name="stereoPan">
-			<value>-20</value>
+			<value>-32</value>
 		</property>
 	</object>
 	<object class="Automator" id="{66c2c006-35a5-4478-9e25-d6f6906b12f6}">
@@ -319,7 +328,7 @@
 	</object>
 	<object class="MixerBusPanner" id="{6e216d39-607f-4fc1-bd53-a708034106ed}">
 		<property name="stereoPan">
-			<value>18</value>
+			<value>32</value>
 		</property>
 	</object>
 	<object class="Automator" id="{1646cbae-950b-434f-9117-17e8d0c574a1}">
@@ -337,7 +346,7 @@
 	</object>
 	<object class="MixerBusPanner" id="{f973facb-d22e-4019-853d-1eeb8f6d7ce8}">
 		<property name="stereoPan">
-			<value>52</value>
+			<value>100</value>
 		</property>
 	</object>
 	<object class="MixerBusFader" id="{3fd7c846-53ad-4d6b-8af6-24d113f80399}" />
@@ -402,7 +411,7 @@
 			<value>2</value>
 		</property>
 		<property name="value">
-			<value>-80</value>
+			<value>-43.75</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{988ac6bd-df89-4581-a14f-641effc7ea34}">
@@ -410,7 +419,7 @@
 			<value>4</value>
 		</property>
 		<property name="value">
-			<value>-80</value>
+			<value>-43.75</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{d3f432e1-0c8f-478f-bf03-a07b03e2cad2}">
@@ -418,7 +427,7 @@
 			<value>3</value>
 		</property>
 		<property name="value">
-			<value>-80</value>
+			<value>-43.75</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{e8e258fd-03b4-4fe8-bf74-e7cff4d12bc7}">
@@ -426,7 +435,7 @@
 			<value>2</value>
 		</property>
 		<property name="value">
-			<value>3.81469727e-06</value>
+			<value>0</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{0e3c90b3-3678-43e1-970f-8c7b31c88da0}">

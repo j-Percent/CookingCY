@@ -280,7 +280,7 @@
 	</object>
 	<object class="MixerBusPanner" id="{bb867eee-eb6b-4567-b434-a4dad0abecfe}">
 		<property name="stereoPan">
-			<value>-48</value>
+			<value>-84</value>
 		</property>
 	</object>
 	<object class="Automator" id="{f8d7de96-8a1e-41f7-8c0e-0c9a25a590f1}">
@@ -298,7 +298,7 @@
 	</object>
 	<object class="MixerBusPanner" id="{d20a8a79-51c4-4d95-b355-32c23bd7e03d}">
 		<property name="stereoPan">
-			<value>-20</value>
+			<value>-32</value>
 		</property>
 	</object>
 	<object class="Automator" id="{cdc11144-a91e-4f57-9101-2edb485988ea}">
@@ -316,7 +316,7 @@
 	</object>
 	<object class="MixerBusPanner" id="{af9077f2-9ea1-405e-b7d8-4132cf4b3f6f}">
 		<property name="stereoPan">
-			<value>18</value>
+			<value>32</value>
 		</property>
 	</object>
 	<object class="Automator" id="{9ae73bc6-956c-4b9b-9f0d-79f00d88dbd8}">
@@ -334,7 +334,7 @@
 	</object>
 	<object class="MixerBusPanner" id="{7efe7045-0f23-4664-9b3c-4d24a4dc42c1}">
 		<property name="stereoPan">
-			<value>52</value>
+			<value>100</value>
 		</property>
 	</object>
 	<object class="MixerBusFader" id="{193aeaf7-7940-43a3-8fde-d5ea99ac2839}" />
@@ -385,7 +385,7 @@
 			<value>1</value>
 		</property>
 		<property name="value">
-			<value>5</value>
+			<value>0</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{00491b35-9406-498c-9ba4-1a510d4dcb22}">
@@ -393,7 +393,7 @@
 			<value>2</value>
 		</property>
 		<property name="value">
-			<value>-53.3333473</value>
+			<value>-43.75</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{a8773a91-b3c0-437e-9448-bf0776c7fa36}">
@@ -401,7 +401,7 @@
 			<value>2</value>
 		</property>
 		<property name="value">
-			<value>3.81469727e-06</value>
+			<value>0</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{2fbd47ad-bbec-4ffd-93f5-8373ae225384}">

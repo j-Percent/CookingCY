@@ -281,7 +281,11 @@
 			<destination>{6c3541a9-d5d5-40c7-b59b-22143adc5430}</destination>
 		</relationship>
 	</object>
-	<object class="MixerBusPanner" id="{f9047f59-765c-49be-bd11-4eeb335fb9e5}" />
+	<object class="MixerBusPanner" id="{f9047f59-765c-49be-bd11-4eeb335fb9e5}">
+		<property name="stereoPan">
+			<value>-100</value>
+		</property>
+	</object>
 	<object class="Automator" id="{7eb5faef-5d40-4f06-9545-9f38a5e537c0}">
 		<property name="nameOfPropertyBeingAutomated">
 			<value>volume</value>
@@ -295,7 +299,11 @@
 			<destination>{2c50d3f1-69cf-498e-b1ea-d675f9cc295b}</destination>
 		</relationship>
 	</object>
-	<object class="MixerBusPanner" id="{3d5dfb88-13ba-43e8-9c69-b925f0305548}" />
+	<object class="MixerBusPanner" id="{3d5dfb88-13ba-43e8-9c69-b925f0305548}">
+		<property name="stereoPan">
+			<value>-32</value>
+		</property>
+	</object>
 	<object class="Automator" id="{d7a9b06c-fdcd-4958-9e65-43a127947965}">
 		<property name="nameOfPropertyBeingAutomated">
 			<value>volume</value>
@@ -309,7 +317,11 @@
 			<destination>{24cd6d0f-f7c4-404b-bb13-ea9b8a216c37}</destination>
 		</relationship>
 	</object>
-	<object class="MixerBusPanner" id="{7ad23cc0-a8d9-41b3-9b5b-2ae8c61e185a}" />
+	<object class="MixerBusPanner" id="{7ad23cc0-a8d9-41b3-9b5b-2ae8c61e185a}">
+		<property name="stereoPan">
+			<value>30</value>
+		</property>
+	</object>
 	<object class="Automator" id="{a1e9336b-ce22-43b5-8d6c-7a40cc1b41d4}">
 		<property name="nameOfPropertyBeingAutomated">
 			<value>volume</value>
@@ -323,7 +335,11 @@
 			<destination>{d0b3e6d2-be22-4ece-80b6-bca8ad28bb7f}</destination>
 		</relationship>
 	</object>
-	<object class="MixerBusPanner" id="{0a104271-f925-40fb-8600-f8c63c483e79}" />
+	<object class="MixerBusPanner" id="{0a104271-f925-40fb-8600-f8c63c483e79}">
+		<property name="stereoPan">
+			<value>100</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{e516bde9-5f35-47bc-ac52-a76462fc0124}" />
 	<object class="AutomationCurve" id="{d23b9249-8371-425d-aebd-2b3dc50d67f4}">
 		<relationship name="parameter">
